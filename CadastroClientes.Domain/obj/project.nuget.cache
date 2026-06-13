@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ccg5sa2gLtw=",
+  "dgSpecHash": "iXTLMwMxgpY=",
   "success": true,
-  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj",
+  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -13,3 +13,4 @@ E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Applicatio
 E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Application\obj\Debug\net8.0\refint\CadastroClientes.Application.dll
 E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Application\obj\Debug\net8.0\CadastroClientes.Application.pdb
 E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Application\obj\Debug\net8.0\ref\CadastroClientes.Application.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Debug\net8.0\CadastroClientes.Application.sourcelink.json

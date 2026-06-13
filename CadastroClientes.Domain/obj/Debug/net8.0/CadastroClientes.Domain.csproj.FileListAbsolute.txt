@@ -9,3 +9,4 @@ E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Domain\obj
 E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Domain\obj\Debug\net8.0\refint\CadastroClientes.Domain.dll
 E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Domain\obj\Debug\net8.0\CadastroClientes.Domain.pdb
 E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Domain\obj\Debug\net8.0\ref\CadastroClientes.Domain.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Debug\net8.0\CadastroClientes.Domain.sourcelink.json
