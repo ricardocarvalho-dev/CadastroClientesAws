@@ -1,0 +1,17 @@
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\bin\Debug\net8.0\CadastroClientes.Infrastructure.deps.json
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\bin\Debug\net8.0\CadastroClientes.Infrastructure.dll
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\bin\Debug\net8.0\CadastroClientes.Infrastructure.pdb
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\bin\Debug\net8.0\CadastroClientes.Application.dll
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\bin\Debug\net8.0\CadastroClientes.Domain.dll
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\bin\Debug\net8.0\CadastroClientes.Domain.pdb
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\bin\Debug\net8.0\CadastroClientes.Application.pdb
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\CadastroClientes.Infrastructure.csproj.AssemblyReference.cache
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\CadastroClientes.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\CadastroClientes.Infrastructure.AssemblyInfoInputs.cache
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\CadastroClientes.Infrastructure.AssemblyInfo.cs
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\CadastroClientes.Infrastructure.csproj.CoreCompileInputs.cache
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\Cadastro.28A1E242.Up2Date
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\CadastroClientes.Infrastructure.dll
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\refint\CadastroClientes.Infrastructure.dll
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\CadastroClientes.Infrastructure.pdb
+E:\AppSistemas\CadastroClienteAzure\CadastroClientes\CadastroClientes.Infrastructure\obj\Debug\net8.0\ref\CadastroClientes.Infrastructure.dll

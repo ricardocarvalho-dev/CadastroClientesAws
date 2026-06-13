@@ -1,0 +1,16 @@
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\bin\Release\net8.0\CadastroClientes.Application.deps.json
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\bin\Release\net8.0\CadastroClientes.Application.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\bin\Release\net8.0\CadastroClientes.Application.pdb
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\bin\Release\net8.0\CadastroClientes.Domain.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\bin\Release\net8.0\CadastroClientes.Domain.pdb
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.csproj.AssemblyReference.cache
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.AssemblyInfoInputs.cache
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.AssemblyInfo.cs
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.csproj.CoreCompileInputs.cache
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.sourcelink.json
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\Cadastro.7B9856F1.Up2Date
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\refint\CadastroClientes.Application.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\CadastroClientes.Application.pdb
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Application\obj\Release\net8.0\ref\CadastroClientes.Application.dll

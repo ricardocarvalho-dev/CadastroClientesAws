@@ -1,0 +1,47 @@
+using CadastroClientes.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace CadastroClientes.Infrastructure.Data;
+
+public class AppDbContext : DbContext
+{
+    public DbSet<Cliente> Clientes { get; set; }
+
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Configurações da entidade Cliente
+        modelBuilder.Entity<Cliente>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever();
+
+            entity.Property(e => e.Nome)
+                .IsRequired()
+                .HasMaxLength(150);
+
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            entity.Property(e => e.Celular)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            entity.Property(e => e.DataCadastro)
+                .ValueGeneratedOnAdd();
+
+            // Índice único para Email
+            entity.HasIndex(e => e.Email)
+                .IsUnique();
+        });
+    }
+}

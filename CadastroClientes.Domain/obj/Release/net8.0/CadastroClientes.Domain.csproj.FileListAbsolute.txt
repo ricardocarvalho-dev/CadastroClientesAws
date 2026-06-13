@@ -1,0 +1,12 @@
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\bin\Release\net8.0\CadastroClientes.Domain.deps.json
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\bin\Release\net8.0\CadastroClientes.Domain.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\bin\Release\net8.0\CadastroClientes.Domain.pdb
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\CadastroClientes.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\CadastroClientes.Domain.AssemblyInfoInputs.cache
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\CadastroClientes.Domain.AssemblyInfo.cs
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\CadastroClientes.Domain.csproj.CoreCompileInputs.cache
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\CadastroClientes.Domain.sourcelink.json
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\CadastroClientes.Domain.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\refint\CadastroClientes.Domain.dll
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\CadastroClientes.Domain.pdb
+E:\AppSistemas\CadastroClienteAzure\cadastroclientes\CadastroClientes.Domain\obj\Release\net8.0\ref\CadastroClientes.Domain.dll

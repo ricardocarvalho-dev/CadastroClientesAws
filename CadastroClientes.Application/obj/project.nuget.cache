@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "vPTC1gODXpU=",
+  "success": true,
+  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.9\\microsoft.extensions.dependencyinjection.10.0.9.nupkg.sha512",
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.9\\microsoft.extensions.dependencyinjection.abstractions.10.0.9.nupkg.sha512",
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\microsoft.extensions.logging\\10.0.9\\microsoft.extensions.logging.10.0.9.nupkg.sha512",
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.9\\microsoft.extensions.logging.abstractions.10.0.9.nupkg.sha512",
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\microsoft.extensions.options\\10.0.9\\microsoft.extensions.options.10.0.9.nupkg.sha512",
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.9\\microsoft.extensions.primitives.10.0.9.nupkg.sha512",
+    "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.9\\system.diagnostics.diagnosticsource.10.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}

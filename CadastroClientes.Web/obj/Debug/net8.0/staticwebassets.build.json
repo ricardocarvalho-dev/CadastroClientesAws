@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "agYLArckgiJDZpbic/713VFlIg7MwAjElEQmxfopYik=",
+  "Source": "CadastroClientes.Web",
+  "BasePath": "_content/CadastroClientes.Web",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "CadastroClientes.Web\\wwwroot",
+      "Source": "CadastroClientes.Web",
+      "ContentRoot": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Web\\wwwroot\\",
+      "BasePath": "_content/CadastroClientes.Web",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Web\\wwwroot\\app.css",
+      "SourceId": "CadastroClientes.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Web\\wwwroot\\",
+      "BasePath": "_content/CadastroClientes.Web",
+      "RelativePath": "app.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\app.css"
+    }
+  ]
+}
