@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj": {}
+    "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj": {}
   },
   "projects": {
     "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj": {
@@ -148,14 +148,14 @@
         }
       }
     },
-    "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj": {
+    "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj",
+        "projectUniqueName": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj",
         "projectName": "CadastroClientes.Infrastructure",
-        "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj",
+        "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\",
-        "outputPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\obj\\",
+        "outputPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

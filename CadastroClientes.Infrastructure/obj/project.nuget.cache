@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qrHFGyA64L8=",
+  "dgSpecHash": "6nSeRuLvuhM=",
   "success": true,
-  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj",
+  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
