@@ -160,8 +160,12 @@
                 using var json = await System.Text.Json.JsonDocument.ParseAsync(stream);
                 
                 var clientesArray = json.RootElement.GetProperty("clientes");
+                var options = new System.Text.Json.JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
                 clientes = System.Text.Json.JsonSerializer.Deserialize<List<ClienteDto>>(
-                    clientesArray.GetRawText()) ?? new();
+                    clientesArray.GetRawText(), options) ?? new();
             }
         }
         catch (Exception ex)
@@ -175,6 +179,7 @@
             carregandoLista = false;
         }
     }
+
 
     private async Task CriarCliente()
     {
