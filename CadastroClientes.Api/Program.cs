@@ -20,21 +20,23 @@ builder.Services.AddSwaggerGen();
 // Configura o Banco de Dados para usar SQLite com caminho persistente no Azure
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    string dataPath = Path.Combine(AppContext.BaseDirectory, "data");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     
-    if (string.IsNullOrEmpty(AppContext.BaseDirectory))
+    if (!string.IsNullOrEmpty(connectionString))
     {
-        dataPath = @"D:\home\site\data";
+        // Produção: usa SQL Server do Azure
+        options.UseSqlServer(connectionString);
     }
-    
-    if (!Directory.Exists(dataPath))
-        Directory.CreateDirectory(dataPath);
-    
-    var dbPath = Path.Combine(dataPath, "cadastroclientes.db");
-    
-    SQLitePCL.Batteries.Init();
-    
-    options.UseSqlite($"Data Source={dbPath}");
+    else
+    {
+        // Local: usa SQLite
+        string dataPath = Path.Combine(AppContext.BaseDirectory, "data");
+        if (!Directory.Exists(dataPath))
+            Directory.CreateDirectory(dataPath);
+        var dbPath = Path.Combine(dataPath, "cadastroclientes.db");
+        SQLitePCL.Batteries.Init();
+        options.UseSqlite($"Data Source={dbPath}");
+    }
 });
 
 // Configura RabbitMQ
