@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "agYLArckgiJDZpbic/713VFlIg7MwAjElEQmxfopYik=",
+  "Hash": "1RCPeXHd+oVVV6BNmk5CePD7YRB7l0BqyOwSXSO2Zkc=",
   "Source": "CadastroClientes.Web",
   "BasePath": "_content/CadastroClientes.Web",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "CadastroClientes.Web\\wwwroot",
       "Source": "CadastroClientes.Web",
-      "ContentRoot": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Web\\wwwroot\\",
+      "ContentRoot": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Web\\wwwroot\\",
       "BasePath": "_content/CadastroClientes.Web",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Web\\wwwroot\\app.css",
+      "Identity": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Web\\wwwroot\\app.css",
       "SourceId": "CadastroClientes.Web",
       "SourceType": "Discovered",
-      "ContentRoot": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Web\\wwwroot\\",
+      "ContentRoot": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Web\\wwwroot\\",
       "BasePath": "_content/CadastroClientes.Web",
       "RelativePath": "app.css",
       "AssetKind": "All",
