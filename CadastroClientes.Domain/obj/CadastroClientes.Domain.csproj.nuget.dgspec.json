@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj": {}
+    "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj": {}
   },
   "projects": {
-    "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj": {
+    "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj",
+        "projectUniqueName": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj",
         "projectName": "CadastroClientes.Domain",
-        "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj",
+        "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj",
         "packagesPath": "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\",
-        "outputPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\obj\\",
+        "outputPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

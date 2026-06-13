@@ -4886,11 +4886,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Api\\CadastroClientes.Api.csproj",
+      "projectUniqueName": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Api\\CadastroClientes.Api.csproj",
       "projectName": "CadastroClientes.Api",
-      "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Api\\CadastroClientes.Api.csproj",
+      "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Api\\CadastroClientes.Api.csproj",
       "packagesPath": "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\",
-      "outputPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Api\\obj\\",
+      "outputPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4912,11 +4912,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj": {
-              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj"
+            "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj": {
+              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj"
             },
-            "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj": {
-              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj"
+            "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj": {
+              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Infrastructure\\CadastroClientes.Infrastructure.csproj"
             }
           }
         }
@@ -4987,7 +4987,7 @@
       "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "CadastroClientes.Api depende de Swashbuckle.AspNetCore (>= 6.4.6), mas Swashbuckle.AspNetCore 6.4.6 não foi encontrado. A melhor correspondência aproximada de Swashbuckle.AspNetCore 6.5.0 foi resolvida.",
+      "message": "CadastroClientes.Api depends on Swashbuckle.AspNetCore (>= 6.4.6) but Swashbuckle.AspNetCore 6.4.6 was not found. An approximate best match of Swashbuckle.AspNetCore 6.5.0 was resolved.",
       "libraryId": "Swashbuckle.AspNetCore",
       "targetGraphs": [
         "net8.0"

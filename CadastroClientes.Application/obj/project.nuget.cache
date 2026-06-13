@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vPTC1gODXpU=",
+  "dgSpecHash": "fDLb/KLqRaE=",
   "success": true,
-  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj",
+  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.9\\microsoft.extensions.dependencyinjection.10.0.9.nupkg.sha512",

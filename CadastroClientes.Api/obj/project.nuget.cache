@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wDFeODy65dc=",
+  "dgSpecHash": "wFSeBBb8YvU=",
   "success": true,
-  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Api\\CadastroClientes.Api.csproj",
+  "projectFilePath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Api\\CadastroClientes.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Basis Tecnologia\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
@@ -100,7 +100,7 @@
       "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "CadastroClientes.Api depende de Swashbuckle.AspNetCore (>= 6.4.6), mas Swashbuckle.AspNetCore 6.4.6 não foi encontrado. A melhor correspondência aproximada de Swashbuckle.AspNetCore 6.5.0 foi resolvida.",
+      "message": "CadastroClientes.Api depends on Swashbuckle.AspNetCore (>= 6.4.6) but Swashbuckle.AspNetCore 6.4.6 was not found. An approximate best match of Swashbuckle.AspNetCore 6.5.0 was resolved.",
       "libraryId": "Swashbuckle.AspNetCore",
       "targetGraphs": [
         "net8.0"

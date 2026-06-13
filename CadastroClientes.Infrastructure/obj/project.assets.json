@@ -3270,11 +3270,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj": {
-              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj"
+            "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj": {
+              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Application\\CadastroClientes.Application.csproj"
             },
-            "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj": {
-              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\cadastroclientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj"
+            "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj": {
+              "projectPath": "E:\\AppSistemas\\CadastroClienteAzure\\CadastroClientes\\CadastroClientes.Domain\\CadastroClientes.Domain.csproj"
             }
           }
         }
