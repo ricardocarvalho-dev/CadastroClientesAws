@@ -7,28 +7,18 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject ILogger<Home> Logger
 
-<PageTitle>Cadastro de Clientes</PageTitle>
+<PageTitle>Demonstração de cadastro de clientes com envio de mensagem</PageTitle>
 
 <div class="cc-wrapper">
-    <header class="cc-header">
-        <div class="cc-header-inner">
-            <div class="cc-logo">
-                <span class="cc-logo-icon">👤</span>
-                <div>
-                    <h1 class="cc-title">Gestão de Clientes</h1>
-                    <p class="cc-subtitle">Sistema de cadastro e acompanhamento</p>
-                </div>
-            </div>
-            <div class="cc-header-stats">
-                <div class="cc-stat">
-                    <span class="cc-stat-num">@clientes.Count</span>
-                    <span class="cc-stat-label">Clientes</span>
-                </div>
+    <main class="cc-main">
+        <div class="cc-page-header">
+            <h1 class="cc-page-title">📋 Demonstração de cadastro de clientes com envio de mensagem</h1>
+            <div class="cc-stat-badge">
+                <span class="cc-stat-num">@clientes.Count</span>
+                <span class="cc-stat-label">cliente@(clientes.Count != 1 ? "s" : "") cadastrado@(clientes.Count != 1 ? "s" : "")</span>
             </div>
         </div>
-    </header>
 
-    <main class="cc-main">
         <div class="cc-grid">
 
             <!-- FORMULÁRIO -->
@@ -55,16 +45,19 @@
 
                         <div class="cc-field">
                             <label class="cc-label">Celular <span class="cc-required">*</span></label>
-                            <InputText class="cc-input" @bind-Value="novoCliente.Celular" placeholder="(11) 99999-9999" />
+                            <input class="cc-input" value="@novoCliente.Celular"
+                                   @oninput="AplicarMascaraCelular"
+                                   placeholder="(11) 99999-9999"
+                                   maxlength="15" />
                             <ValidationMessage For="@(() => novoCliente.Celular)" class="cc-validation" />
-                            <small class="cc-hint">Formato: (XX) 9XXXX-XXXX</small>
                         </div>
 
                         <div class="cc-field">
-                            <label class="cc-label">Mensagem de boas-vindas</label>
-                            <InputTextArea class="cc-input cc-textarea" @bind-Value="novoCliente.Mensagem" placeholder="Mensagem que será enviada ao cliente por e-mail..." rows="3" />
+                            <label class="cc-label">Mensagem de boas-vindas <span class="cc-required">*</span></label>
+                            <InputTextArea class="cc-input cc-textarea" @bind-Value="novoCliente.Mensagem"
+                                          placeholder="Escreva a mensagem que será enviada ao cliente por e-mail..." rows="4" />
                             <ValidationMessage For="@(() => novoCliente.Mensagem)" class="cc-validation" />
-                            <small class="cc-hint">Opcional · Máx. 500 caracteres</small>
+                            <small class="cc-hint">Máx. 500 caracteres · @(novoCliente.Mensagem?.Length ?? 0)/500</small>
                         </div>
 
                         <div class="cc-form-actions">
@@ -139,7 +132,7 @@
                                         <tr class="@(clienteEditandoId == c.Id ? "cc-row-editing" : "")">
                                             <td class="cc-td-nome">@c.Nome</td>
                                             <td class="cc-td-email">@c.Email</td>
-                                            <td>@c.Celular</td>
+                                            <td>@FormatarCelular(c.Celular)</td>
                                             <td class="cc-td-msg">
                                                 @if (!string.IsNullOrEmpty(c.Mensagem))
                                                 {
@@ -206,86 +199,91 @@
     }
 
     body { background: var(--cc-bg) !important; }
-
     .cc-wrapper { min-height: 100vh; background: var(--cc-bg); font-family: 'Segoe UI', system-ui, sans-serif; }
 
-    .cc-header { background: linear-gradient(135deg, var(--cc-primary) 0%, var(--cc-primary-dark) 100%); padding: 1.5rem 2rem; }
-    .cc-header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-    .cc-logo { display: flex; align-items: center; gap: 1rem; }
-    .cc-logo-icon { font-size: 2rem; }
-    .cc-title { color: #fff; font-size: 1.5rem; font-weight: 700; margin: 0; }
-    .cc-subtitle { color: rgba(255,255,255,.7); font-size: .85rem; margin: 0; }
-    .cc-stat { text-align: center; background: rgba(255,255,255,.15); border-radius: 8px; padding: .5rem 1.25rem; }
-    .cc-stat-num { display: block; color: #fff; font-size: 1.75rem; font-weight: 700; line-height: 1; }
-    .cc-stat-label { color: rgba(255,255,255,.7); font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; }
-
+    /* PAGE HEADER */
     .cc-main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
-    .cc-grid { display: grid; grid-template-columns: 380px 1fr; gap: 1.5rem; align-items: start; }
-    @@media (max-width: 900px) { .cc-grid { grid-template-columns: 1fr; } }
+    .cc-page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .cc-page-title { font-size: 1.2rem; font-weight: 700; color: var(--cc-text); margin: 0; }
+    .cc-stat-badge { display: flex; align-items: center; gap: .4rem; background: var(--cc-primary); border-radius: 20px; padding: .35rem 1rem; }
+    .cc-stat-num { color: #fff; font-size: 1.1rem; font-weight: 700; }
+    .cc-stat-label { color: rgba(255,255,255,.85); font-size: .8rem; }
 
+    /* GRID */
+    .cc-grid { display: grid; grid-template-columns: 420px 1fr; gap: 1.5rem; align-items: start; }
+    @@media (max-width: 960px) { .cc-grid { grid-template-columns: 1fr; } }
+
+    /* CARD */
     .cc-card { background: var(--cc-surface); border-radius: var(--cc-radius); box-shadow: var(--cc-shadow); overflow: hidden; }
-    .cc-card-header { display: flex; align-items: center; gap: .75rem; padding: 1.1rem 1.5rem; border-bottom: 1px solid var(--cc-border); background: #fafafa; }
+    .cc-card-header { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.5rem; border-bottom: 2px solid var(--cc-primary-light); background: var(--cc-primary-light); }
     .cc-card-icon { font-size: 1.2rem; }
-    .cc-card-title { font-size: 1rem; font-weight: 600; color: var(--cc-text); margin: 0; flex: 1; }
-    .cc-card-body { padding: 1.5rem; }
+    .cc-card-title { font-size: 1rem; font-weight: 700; color: var(--cc-primary-dark); margin: 0; flex: 1; }
+    .cc-card-body { padding: 1.75rem; }
 
-    .cc-field { margin-bottom: 1.1rem; }
-    .cc-label { display: block; font-size: .85rem; font-weight: 600; color: var(--cc-text); margin-bottom: .4rem; }
+    /* FORM FIELDS */
+    .cc-field { margin-bottom: 1.25rem; }
+    .cc-label { display: block; font-size: .82rem; font-weight: 700; color: var(--cc-text-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: .45rem; }
     .cc-required { color: var(--cc-danger); }
-    .cc-input { width: 100%; padding: .6rem .85rem; border: 1.5px solid var(--cc-border); border-radius: 8px; font-size: .95rem; color: var(--cc-text); transition: border-color .2s, box-shadow .2s; outline: none; box-sizing: border-box; }
+    .cc-input { display: block; width: 100%; padding: .7rem 1rem; border: 1.5px solid var(--cc-border); border-radius: 8px; font-size: .95rem; color: var(--cc-text); background: #fff; transition: border-color .2s, box-shadow .2s; outline: none; box-sizing: border-box; font-family: inherit; }
     .cc-input:focus { border-color: var(--cc-primary); box-shadow: 0 0 0 3px rgba(79,70,229,.12); }
-    .cc-textarea { resize: vertical; min-height: 80px; }
-    .cc-hint { font-size: .78rem; color: var(--cc-text-muted); margin-top: .25rem; display: block; }
-    .cc-validation { font-size: .8rem; color: var(--cc-danger); margin-top: .25rem; display: block; }
+    .cc-textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+    .cc-hint { font-size: .78rem; color: var(--cc-text-muted); margin-top: .3rem; display: block; }
+    .cc-validation { font-size: .8rem; color: var(--cc-danger); margin-top: .3rem; display: block; font-weight: 500; }
 
-    .cc-form-actions { display: flex; gap: .75rem; margin-top: 1.25rem; flex-wrap: wrap; }
-    .cc-btn { display: inline-flex; align-items: center; gap: .4rem; padding: .6rem 1.25rem; border-radius: 8px; font-size: .9rem; font-weight: 600; border: none; cursor: pointer; transition: all .2s; }
+    /* BUTTONS */
+    .cc-form-actions { display: flex; gap: .75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .cc-btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; padding: .7rem 1.5rem; border-radius: 8px; font-size: .92rem; font-weight: 700; border: none; cursor: pointer; transition: all .2s; min-width: 140px; }
     .cc-btn:disabled { opacity: .6; cursor: not-allowed; }
-    .cc-btn-primary { background: var(--cc-primary); color: #fff; }
-    .cc-btn-primary:hover:not(:disabled) { background: var(--cc-primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,.3); }
+    .cc-btn-primary { background: var(--cc-primary); color: #fff; box-shadow: 0 2px 8px rgba(79,70,229,.25); }
+    .cc-btn-primary:hover:not(:disabled) { background: var(--cc-primary-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(79,70,229,.35); }
     .cc-btn-secondary { background: #f3f4f6; color: var(--cc-text); border: 1.5px solid var(--cc-border); }
     .cc-btn-secondary:hover { background: var(--cc-border); }
     .cc-btn-danger { background: var(--cc-danger); color: #fff; }
     .cc-btn-danger:hover:not(:disabled) { background: #b91c1c; }
-    .cc-btn-refresh { background: none; border: none; cursor: pointer; font-size: 1rem; padding: .25rem .5rem; border-radius: 6px; transition: background .2s; margin-left: auto; }
-    .cc-btn-refresh:hover { background: var(--cc-border); }
+    .cc-btn-refresh { background: none; border: 1.5px solid var(--cc-border); cursor: pointer; font-size: .9rem; padding: .3rem .7rem; border-radius: 6px; transition: all .2s; margin-left: auto; color: var(--cc-text-muted); }
+    .cc-btn-refresh:hover { background: var(--cc-primary-light); border-color: var(--cc-primary); color: var(--cc-primary); }
 
-    .cc-alert { margin-top: 1rem; padding: .75rem 1rem; border-radius: 8px; font-size: .9rem; font-weight: 500; }
-    .cc-alert-success { background: var(--cc-success-light); color: var(--cc-success); border: 1px solid #bbf7d0; }
-    .cc-alert-error { background: var(--cc-danger-light); color: var(--cc-danger); border: 1px solid #fecaca; }
+    /* ALERTS */
+    .cc-alert { margin-top: 1.25rem; padding: .85rem 1.1rem; border-radius: 8px; font-size: .9rem; font-weight: 600; }
+    .cc-alert-success { background: var(--cc-success-light); color: var(--cc-success); border: 1.5px solid #bbf7d0; }
+    .cc-alert-error { background: var(--cc-danger-light); color: var(--cc-danger); border: 1.5px solid #fecaca; }
 
-    .cc-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; display: inline-block; animation: cc-spin .7s linear infinite; }
+    /* SPINNER */
+    .cc-spinner { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; display: inline-block; animation: cc-spin .7s linear infinite; }
     .cc-spinner-dark { border-color: rgba(79,70,229,.2); border-top-color: var(--cc-primary); }
     @@keyframes cc-spin { to { transform: rotate(360deg); } }
 
-    .cc-table-wrap { overflow-x: auto; }
+    /* TABLE */
+    .cc-table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--cc-border); }
     .cc-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
     .cc-table thead tr { background: var(--cc-primary-light); }
-    .cc-table th { padding: .75rem 1rem; text-align: left; font-size: .78rem; font-weight: 700; color: var(--cc-primary); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
-    .cc-table td { padding: .75rem 1rem; border-bottom: 1px solid var(--cc-border); color: var(--cc-text); vertical-align: middle; }
-    .cc-table tbody tr:hover { background: #f9fafb; }
+    .cc-table th { padding: .85rem 1rem; text-align: left; font-size: .75rem; font-weight: 800; color: var(--cc-primary-dark); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; border-bottom: 2px solid var(--cc-primary); }
+    .cc-table td { padding: .85rem 1rem; border-bottom: 1px solid var(--cc-border); color: var(--cc-text); vertical-align: middle; }
     .cc-table tbody tr:last-child td { border-bottom: none; }
-    .cc-row-editing { background: var(--cc-primary-light) !important; }
-    .cc-td-nome { font-weight: 600; }
-    .cc-td-email { color: var(--cc-text-muted); }
-    .cc-td-data { color: var(--cc-text-muted); white-space: nowrap; }
-    .cc-td-msg { max-width: 150px; }
-    .cc-msg-preview { color: var(--cc-text-muted); font-style: italic; cursor: help; }
-    .cc-no-msg { color: var(--cc-border); }
+    .cc-table tbody tr:hover { background: #f9fafb; }
+    .cc-row-editing { background: var(--cc-primary-light) !important; outline: 2px solid var(--cc-primary); outline-offset: -2px; }
+    .cc-td-nome { font-weight: 700; }
+    .cc-td-email { color: var(--cc-text-muted); font-size: .85rem; }
+    .cc-td-data { color: var(--cc-text-muted); white-space: nowrap; font-size: .85rem; }
+    .cc-td-msg { max-width: 180px; }
+    .cc-msg-preview { color: var(--cc-text-muted); font-style: italic; cursor: help; font-size: .85rem; }
+    .cc-no-msg { color: #d1d5db; }
     .cc-td-actions { white-space: nowrap; }
     .cc-btn-action { background: none; border: none; cursor: pointer; font-size: 1rem; padding: .3rem .4rem; border-radius: 6px; transition: background .2s; }
     .cc-btn-edit:hover { background: var(--cc-primary-light); }
     .cc-btn-delete:hover { background: var(--cc-danger-light); }
 
-    .cc-empty { text-align: center; padding: 2.5rem 1rem; color: var(--cc-text-muted); }
+    /* EMPTY / LOADING */
+    .cc-empty { text-align: center; padding: 3rem 1rem; color: var(--cc-text-muted); }
     .cc-empty-icon { font-size: 2.5rem; display: block; margin-bottom: .75rem; }
-    .cc-loading { display: flex; align-items: center; gap: .75rem; padding: 2rem; color: var(--cc-text-muted); justify-content: center; }
+    .cc-loading { display: flex; align-items: center; gap: .75rem; padding: 2.5rem; color: var(--cc-text-muted); justify-content: center; }
 
-    .cc-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(2px); }
-    .cc-modal { background: #fff; border-radius: var(--cc-radius); padding: 2rem; max-width: 420px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,.2); text-align: center; }
-    .cc-modal-icon { font-size: 2.5rem; margin-bottom: .75rem; }
-    .cc-modal-title { font-size: 1.2rem; font-weight: 700; color: var(--cc-text); margin: 0 0 .5rem; }
-    .cc-modal-text { color: var(--cc-text-muted); font-size: .95rem; margin-bottom: 1.5rem; }
+    /* MODAL */
+    .cc-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(3px); }
+    .cc-modal { background: #fff; border-radius: var(--cc-radius); padding: 2.5rem 2rem; max-width: 420px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,.2); text-align: center; }
+    .cc-modal-icon { font-size: 3rem; margin-bottom: .75rem; }
+    .cc-modal-title { font-size: 1.25rem; font-weight: 700; color: var(--cc-text); margin: 0 0 .5rem; }
+    .cc-modal-text { color: var(--cc-text-muted); font-size: .95rem; margin-bottom: 1.75rem; line-height: 1.5; }
     .cc-modal-actions { display: flex; gap: .75rem; justify-content: center; }
 </style>
 
@@ -349,7 +347,8 @@
                 using var json = await System.Text.Json.JsonDocument.ParseAsync(stream);
                 var clientesArray = json.RootElement.GetProperty("clientes");
                 var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                clientes = System.Text.Json.JsonSerializer.Deserialize<List<ClienteDto>>(clientesArray.GetRawText(), options) ?? new();
+                clientes = System.Text.Json.JsonSerializer.Deserialize<List<ClienteDto>>(
+                    clientesArray.GetRawText(), options) ?? new();
             }
         }
         catch (Exception ex)
@@ -367,9 +366,10 @@
     private async Task SalvarCliente()
     {
         var celularLimpo = new string(novoCliente.Celular.Where(char.IsDigit).ToArray());
-        if (!ValidarCelular(novoCliente.Celular))
+
+        if (celularLimpo.Length < 10 || celularLimpo.Length > 11)
         {
-            mensagem = "Celular deve estar no formato (XX) 9XXXX-XXXX";
+            mensagem = "Celular inválido. Digite DDD + número com 9 dígitos.";
             tipoMensagem = "erro";
             return;
         }
@@ -404,7 +404,9 @@
 
             if (response.IsSuccessStatusCode)
             {
-                mensagem = modoEdicao ? "Cliente atualizado com sucesso!" : "Cliente cadastrado! Um e-mail será enviado em breve.";
+                mensagem = modoEdicao
+                    ? "Cliente atualizado com sucesso!"
+                    : "✅ Cliente cadastrado! Um e-mail será enviado em breve.";
                 tipoMensagem = "sucesso";
                 novoCliente = new();
                 modoEdicao = false;
@@ -430,6 +432,32 @@
         }
     }
 
+    private void AplicarMascaraCelular(ChangeEventArgs e)
+    {
+        var digits = new string((e.Value?.ToString() ?? "").Where(char.IsDigit).ToArray());
+        if (digits.Length > 11) digits = digits[..11];
+
+        novoCliente.Celular = digits.Length switch
+        {
+            0 => "",
+            <= 2 => $"({digits}",
+            <= 6 => $"({digits[..2]}) {digits[2..]}",
+            <= 10 => $"({digits[..2]}) {digits[2..6]}-{digits[6..]}",
+            _ => $"({digits[..2]}) {digits[2..7]}-{digits[7..]}"
+        };
+    }
+
+    private string FormatarCelular(string celular)
+    {
+        var digits = new string(celular.Where(char.IsDigit).ToArray());
+        return digits.Length switch
+        {
+            11 => $"({digits[..2]}) {digits[2..7]}-{digits[7..]}",
+            10 => $"({digits[..2]}) {digits[2..6]}-{digits[6..]}",
+            _ => celular
+        };
+    }
+
     private void EditarCliente(ClienteDto c)
     {
         modoEdicao = true;
@@ -439,7 +467,7 @@
             Id = c.Id,
             Nome = c.Nome,
             Email = c.Email,
-            Celular = c.Celular,
+            Celular = FormatarCelular(c.Celular),
             Mensagem = c.Mensagem
         };
         mensagem = string.Empty;
@@ -494,11 +522,5 @@
         {
             carregando = false;
         }
-    }
-
-    private bool ValidarCelular(string celular)
-    {
-        var pattern = @"^\(\d{2}\)\s?9\d{4}-\d{4}$|^\d{2}\s?9\d{4}-\d{4}$|^\+55\s?\d{2}\s?9\d{4}-\d{4}$";
-        return Regex.IsMatch(celular, pattern);
     }
 }
