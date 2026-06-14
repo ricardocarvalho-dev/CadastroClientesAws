@@ -1,20 +1,47 @@
 @inherits LayoutComponentBase
 
-<div class="page">
-    <header class="top-row px-4 auth">
-        <LoginDisplay />
-    </header>
+<div class="cc-app">
+    <nav class="cc-navbar">
+        <div class="cc-navbar-inner">
+            <div class="cc-navbar-brand">
+                <span class="cc-navbar-icon">👤</span>
+                <span class="cc-navbar-title">Gestão de Clientes</span>
+            </div>
+            <div class="cc-navbar-user">
+                <LoginDisplay />
+            </div>
+        </div>
+    </nav>
 
-    <main>
+    <main class="cc-content">
         @Body
     </main>
 </div>
 
 <div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
+    Ocorreu um erro inesperado.
+    <a href="" class="reload">Recarregar</a>
     <a class="dismiss">🗙</a>
 </div>
 
-@code {
-}
+<style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #f0f2f5; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+    .cc-app { min-height: 100vh; display: flex; flex-direction: column; }
+
+    .cc-navbar { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); padding: 0 2rem; height: 64px; display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,.15); position: sticky; top: 0; z-index: 100; }
+    .cc-navbar-inner { max-width: 1400px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .cc-navbar-brand { display: flex; align-items: center; gap: .75rem; }
+    .cc-navbar-icon { font-size: 1.4rem; }
+    .cc-navbar-title { color: #fff; font-size: 1.1rem; font-weight: 700; letter-spacing: -.01em; }
+    .cc-navbar-user { display: flex; align-items: center; gap: .75rem; }
+
+    .cc-content { flex: 1; }
+
+    #blazor-error-ui { background: #fef2f2; border-top: 2px solid #dc2626; color: #dc2626; padding: .75rem 1.5rem; position: fixed; bottom: 0; width: 100%; display: none; font-size: .9rem; }
+    #blazor-error-ui .reload { color: #dc2626; font-weight: 600; margin-left: .5rem; }
+    #blazor-error-ui .dismiss { float: right; cursor: pointer; }
+</style>
+
+@code {}

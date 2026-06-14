@@ -6,67 +6,95 @@
 @inject NavigationManager NavigationManager
 @inject ILogger<Register> Logger
 
-<PageTitle>Registro</PageTitle>
+<PageTitle>Registrar · Gestão de Clientes</PageTitle>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header"><h4>Criar Conta</h4></div>
-                <div class="card-body">
-                    <EditForm Model="Input" OnValidSubmit="RegisterUser" FormName="register">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="auth-icon">✨</span>
+            <h1 class="auth-title">Criar Conta</h1>
+            <p class="auth-subtitle">Preencha os dados para se registrar</p>
+        </div>
 
-                        @if (!string.IsNullOrEmpty(errorMessage))
-                        {
-                            <div class="alert alert-danger">@errorMessage</div>
-                        }
+        <div class="auth-body">
+            <EditForm Model="Input" OnValidSubmit="RegisterUser" FormName="register">
+                <DataAnnotationsValidator />
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <InputText @bind-Value="Input.Email" class="form-control" />
-                            <ValidationMessage For="@(() => Input.Email)" />
-                        </div>
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="auth-alert">⚠️ @errorMessage</div>
+                }
 
-                        <div class="mb-3">
-                            <label class="form-label">Senha</label>
-                            <InputText @bind-Value="Input.Password" class="form-control" type="password" />
-                            <ValidationMessage For="@(() => Input.Password)" />
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Confirmar Senha</label>
-                            <InputText @bind-Value="Input.ConfirmPassword" class="form-control" type="password" />
-                            <ValidationMessage For="@(() => Input.ConfirmPassword)" />
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">Registrar</button>
-                    </EditForm>
-                    <hr />
-                    <p class="text-center">Já tem conta? <a href="/Account/Login">Entrar</a></p>
+                <div class="auth-field">
+                    <label class="auth-label">E-mail</label>
+                    <InputText @bind-Value="Input.Email" class="auth-input" placeholder="seu@email.com" type="email" />
+                    <ValidationMessage For="@(() => Input.Email)" class="auth-validation" />
                 </div>
-            </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Senha</label>
+                    <InputText @bind-Value="Input.Password" class="auth-input" type="password" placeholder="Mín. 6 caracteres" />
+                    <ValidationMessage For="@(() => Input.Password)" class="auth-validation" />
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Confirmar senha</label>
+                    <InputText @bind-Value="Input.ConfirmPassword" class="auth-input" type="password" placeholder="••••••••" />
+                    <ValidationMessage For="@(() => Input.ConfirmPassword)" class="auth-validation" />
+                </div>
+
+                <button type="submit" class="auth-btn">Criar conta →</button>
+            </EditForm>
+
+            <p class="auth-footer">Já tem conta? <a href="/Account/Login" class="auth-link">Entrar</a></p>
         </div>
     </div>
 </div>
+
+<style>
+    @(authStyle)
+</style>
 
 @code {
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
     private string errorMessage = string.Empty;
 
+    private string authStyle = @"
+        body { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important; min-height: 100vh; }
+        .cc-navbar { display: none; }
+        .auth-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .auth-card { background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.25); width: 100%; max-width: 400px; overflow: hidden; }
+        .auth-header { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); padding: 2rem; text-align: center; }
+        .auth-icon { font-size: 2.5rem; display: block; margin-bottom: .75rem; }
+        .auth-title { color: #fff; font-size: 1.4rem; font-weight: 700; margin: 0 0 .25rem; }
+        .auth-subtitle { color: rgba(255,255,255,.75); font-size: .88rem; margin: 0; }
+        .auth-body { padding: 2rem; }
+        .auth-field { margin-bottom: 1.1rem; }
+        .auth-label { display: block; font-size: .85rem; font-weight: 600; color: #111827; margin-bottom: .4rem; }
+        .auth-input { width: 100%; padding: .65rem .9rem; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: .95rem; color: #111827; outline: none; transition: border-color .2s, box-shadow .2s; box-sizing: border-box; }
+        .auth-input:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,.12); }
+        .auth-validation { font-size: .8rem; color: #dc2626; margin-top: .25rem; display: block; }
+        .auth-alert { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 8px; padding: .75rem 1rem; font-size: .88rem; font-weight: 500; margin-bottom: 1rem; }
+        .auth-btn { width: 100%; padding: .75rem; background: #4f46e5; color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all .2s; margin-top: .5rem; }
+        .auth-btn:hover { background: #3730a3; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,.35); }
+        .auth-footer { text-align: center; margin-top: 1.25rem; font-size: .88rem; color: #6b7280; }
+        .auth-link { color: #4f46e5; font-weight: 600; text-decoration: none; }
+        .auth-link:hover { text-decoration: underline; }
+    ";
+
     private sealed class InputModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "E-mail é obrigatório")]
+        [EmailAddress(ErrorMessage = "E-mail inválido")]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(100, MinimumLength = 6)]
+        [Required(ErrorMessage = "Senha é obrigatória")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Senha deve ter no mínimo 6 caracteres")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Confirmação de senha é obrigatória")]
         [Compare("Password", ErrorMessage = "As senhas não coincidem.")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; } = string.Empty;

@@ -305,6 +305,7 @@
         [Required(ErrorMessage = "Celular é obrigatório")]
         public string Celular { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Mensagem é obrigatória")]
         [StringLength(500, ErrorMessage = "Mensagem não pode exceder 500 caracteres")]
         public string Mensagem { get; set; } = string.Empty;
 
@@ -365,6 +366,7 @@
 
     private async Task SalvarCliente()
     {
+        var celularLimpo = new string(novoCliente.Celular.Where(char.IsDigit).ToArray());
         if (!ValidarCelular(novoCliente.Celular))
         {
             mensagem = "Celular deve estar no formato (XX) 9XXXX-XXXX";
@@ -385,7 +387,7 @@
                 {
                     nome = novoCliente.Nome,
                     email = novoCliente.Email,
-                    celular = novoCliente.Celular,
+                    celular = celularLimpo,
                     mensagem = novoCliente.Mensagem
                 });
             }
@@ -395,7 +397,7 @@
                 {
                     nome = novoCliente.Nome,
                     email = novoCliente.Email,
-                    celular = novoCliente.Celular,
+                    celular = celularLimpo,
                     mensagem = novoCliente.Mensagem
                 });
             }

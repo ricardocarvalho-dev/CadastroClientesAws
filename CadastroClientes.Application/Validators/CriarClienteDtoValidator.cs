@@ -19,8 +19,8 @@ public class CriarClienteDtoValidator : AbstractValidator<CriarClienteDto>
 
         RuleFor(x => x.Celular)
             .NotEmpty().WithMessage("Celular é obrigatório")
-            .Matches(@"^\(\d{2}\)\s?9\d{4}-\d{4}$|^\d{2}\s?9\d{4}-\d{4}$|^\+55\s?\d{2}\s?9\d{4}-\d{4}$")
-            .WithMessage("Celular deve estar no formato (XX) 9XXXX-XXXX ou similar")
-            .MaximumLength(20).WithMessage("Celular não pode exceder 20 caracteres");
+            .Matches(@"^\d{10,11}$")
+            .WithMessage("Celular inválido")
+            .MaximumLength(11).WithMessage("Celular não pode exceder 11 caracteres");
     }
 }
