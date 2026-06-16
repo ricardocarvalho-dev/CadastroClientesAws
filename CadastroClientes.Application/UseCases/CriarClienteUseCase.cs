@@ -29,7 +29,6 @@ public class CriarClienteUseCase
     {
         try
         {
-            // Valida o DTO
             var validationResult = await _validator.ValidateAsync(dto);
             if (!validationResult.IsValid)
             {
@@ -37,40 +36,39 @@ public class CriarClienteUseCase
                 throw new ValidationException(errors);
             }
 
-            // Verifica se email já existe
             bool emailJaExiste = await _repository.EmailJaExisteAsync(dto.Email);
             if (emailJaExiste)
-            {
                 throw new InvalidOperationException($"Email {dto.Email} já está cadastrado");
-            }
 
-            // Cria o cliente
+            // ✅ FIX: Mensagem agora é mapeada
             var cliente = new Cliente
             {
                 Id = Guid.NewGuid(),
                 Nome = dto.Nome,
                 Email = dto.Email,
                 Celular = dto.Celular,
+                Mensagem = dto.Mensagem,
                 DataCadastro = DateTime.UtcNow
             };
 
             var clienteCriado = await _repository.CriarAsync(cliente);
             _logger.LogInformation($"Cliente criado com ID: {clienteCriado.Id}");
 
-            // Publica para a fila RabbitMQ
             await _messagingService.PublicarCriacaoClienteAsync(
                 clienteCriado.Id,
                 clienteCriado.Nome,
                 clienteCriado.Email,
                 clienteCriado.Celular,
                 clienteCriado.Mensagem);
-                
+
+            // ✅ FIX: Mensagem incluída no retorno
             return new ClienteDto
             {
                 Id = clienteCriado.Id,
                 Nome = clienteCriado.Nome,
                 Email = clienteCriado.Email,
                 Celular = clienteCriado.Celular,
+                Mensagem = clienteCriado.Mensagem,
                 DataCadastro = clienteCriado.DataCadastro
             };
         }
