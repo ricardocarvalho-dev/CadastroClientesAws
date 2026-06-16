@@ -1,17 +1,21 @@
 @inherits LayoutComponentBase
+@inject NavigationManager Nav
 
 <div class="cc-app">
-    <nav class="cc-navbar">
-        <div class="cc-navbar-inner">
-            <div class="cc-navbar-brand">
-                <span class="cc-navbar-icon">👤</span>
-                <span class="cc-navbar-title">Ricardodev Solução WEB</span>
+    @if (!IsAuthPage)
+    {
+        <nav class="cc-navbar">
+            <div class="cc-navbar-inner">
+                <div class="cc-navbar-brand">
+                    <span class="cc-navbar-icon">👤</span>
+                    <span class="cc-navbar-title">Ricardodev Solução WEB</span>
+                </div>
+                <div class="cc-navbar-user">
+                    <LoginDisplay />
+                </div>
             </div>
-            <div class="cc-navbar-user">
-                <LoginDisplay />
-            </div>
-        </div>
-    </nav>
+        </nav>
+    }
 
     <main class="cc-content">
         @Body
@@ -44,4 +48,6 @@
     #blazor-error-ui .dismiss { float: right; cursor: pointer; }
 </style>
 
-@code {}
+@code {
+    private bool IsAuthPage => Nav.Uri.Contains("/Account/");
+}
