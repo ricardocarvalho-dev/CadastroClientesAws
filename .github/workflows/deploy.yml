@@ -63,3 +63,32 @@ jobs:
         app-name: 'ricardodev-solucaoweb-web'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WEB }}
         package: ./publish-web
+
+  # --- JOB 3: COMPILAR E FAZER DEPLOY DO WORKER ---
+  build-and-deploy-worker:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore Dependencies (Worker)
+      run: dotnet restore
+
+    - name: Build Worker Project
+      run: dotnet build --configuration Release
+
+    # Ajustado de acordo com a sua pasta CadastroClientes.Worker
+    - name: Publish Worker Project
+      run: dotnet publish ./CadastroClientes.Worker/CadastroClientes.Worker.csproj -c Release -o ./publish-worker
+
+    - name: Deploy Worker to Azure App Service
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'ricardodev-solucaoweb-worker'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WORKER }}
+        package: ./publish-worker
