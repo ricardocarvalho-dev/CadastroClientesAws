@@ -34,7 +34,7 @@
 
     .cc-app { min-height: 100vh; display: flex; flex-direction: column; }
 
-    .cc-navbar { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); padding: 0 2rem; height: 64px; display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,.15); position: sticky; top: 0; z-index: 100; }
+    .cc-navbar { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); padding: .75rem 2rem; min-height: 64px; display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,.15); position: sticky; top: 0; z-index: 100; }
     .cc-navbar-inner { max-width: 1400px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .cc-navbar-brand { display: flex; align-items: center; gap: .75rem; }
     .cc-navbar-icon { font-size: 1.4rem; }
@@ -46,6 +46,19 @@
     #blazor-error-ui { background: #fef2f2; border-top: 2px solid #dc2626; color: #dc2626; padding: .75rem 1.5rem; position: fixed; bottom: 0; width: 100%; display: none; font-size: .9rem; }
     #blazor-error-ui .reload { color: #dc2626; font-weight: 600; margin-left: .5rem; }
     #blazor-error-ui .dismiss { float: right; cursor: pointer; }
+
+    @@media (max-width: 600px) {
+        .cc-navbar-inner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: .5rem;
+        }
+
+        .cc-navbar-user {
+            width: 100%;
+            justify-content: flex-start;
+        }
+    }
 </style>
 
 @code {

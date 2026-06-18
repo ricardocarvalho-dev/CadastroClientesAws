@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -11,6 +11,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CadastroClientes.Api", "CadastroClientes.Api\CadastroClientes.Api.csproj", "{4D5E6F7A-8B9C-0D1E-2F3A-4B5C6D7E8F9A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CadastroClientes.Web", "CadastroClientes.Web\CadastroClientes.Web.csproj", "{5E6F7A8B-9C0D-1E2F-3A4B-5C6D7E8F9A0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadastroClientes.Worker", "CadastroClientes.Worker\CadastroClientes.Worker.csproj", "{E053FCE8-62A3-4B61-B860-BE53F4596219}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,5 +40,9 @@ Global
 		{5E6F7A8B-9C0D-1E2F-3A4B-5C6D7E8F9A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E6F7A8B-9C0D-1E2F-3A4B-5C6D7E8F9A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E6F7A8B-9C0D-1E2F-3A4B-5C6D7E8F9A0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E053FCE8-62A3-4B61-B860-BE53F4596219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E053FCE8-62A3-4B61-B860-BE53F4596219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E053FCE8-62A3-4B61-B860-BE53F4596219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E053FCE8-62A3-4B61-B860-BE53F4596219}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
