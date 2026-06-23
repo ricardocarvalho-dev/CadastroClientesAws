@@ -71,17 +71,22 @@ public class RabbitMqConsumerWorker : BackgroundService
                     return;
                 }
 
-                _logger.LogInformation("Mensagem recebida para cliente {ClienteId}.", evento.ClienteId);
+                _logger.LogInformation("Mensagem recebida para cliente {ClienteId}. Canal: {Canal}", evento.ClienteId, evento.Canal);
 
                 using var scope = _scopeFactory.CreateScope();
-                var useCase = scope.ServiceProvider.GetRequiredService<ProcessarEnvioEmailUseCase>();
 
-                await useCase.Executar(
-                    evento.ClienteId,
-                    evento.Nome,
-                    evento.Email,
-                    evento.Celular,
-                    evento.Mensagem);
+                switch (evento.Canal?.ToLower())
+                {
+                    case "sms":
+                        var smsUseCase = scope.ServiceProvider.GetRequiredService<ProcessarEnvioSmsUseCase>();
+                        await smsUseCase.Executar(evento.ClienteId, evento.Nome, evento.Email, evento.Celular, evento.Mensagem);
+                        break;
+
+                    default:
+                        var emailUseCase = scope.ServiceProvider.GetRequiredService<ProcessarEnvioEmailUseCase>();
+                        await emailUseCase.Executar(evento.ClienteId, evento.Nome, evento.Email, evento.Celular, evento.Mensagem);
+                        break;
+                }
 
                 _channel.BasicAck(ea.DeliveryTag, multiple: false);
             }
@@ -91,7 +96,7 @@ public class RabbitMqConsumerWorker : BackgroundService
                 _channel.BasicNack(ea.DeliveryTag, multiple: false, requeue: true);
             }
         };
-
+        
         _channel.BasicConsume(
             queue: QUEUE_NAME,
             autoAck: false,
