@@ -1,33 +1,27 @@
 name: Deploy .NET Core App to Azure
-
 on:
   push:
     branches:
       - main
-
 jobs:
-  # --- JOB 1: COMPILAR E FAZER DEPLOY DA API ---
+  # --- JOB 1: COMPILAR E FAZER DEPLOY DA API + WORKER (WebJob) ---
   build-and-deploy-api:
     runs-on: windows-latest
     steps:
     - name: Checkout Source Code
       uses: actions/checkout@v4
-
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-
-    - name: Restore Dependencies (API)
+    - name: Restore Dependencies
       run: dotnet restore
-
-    - name: Build API Project
+    - name: Build Solution
       run: dotnet build --configuration Release
-
-    # Ajustado de acordo com a sua pasta CadastroClientes.Api
     - name: Publish API Project
       run: dotnet publish ./CadastroClientes.Api/CadastroClientes.Api.csproj -c Release -o ./publish-api
-
+    - name: Publish Worker as WebJob
+      run: dotnet publish ./CadastroClientes.Worker/CadastroClientes.Worker.csproj -c Release -o ./publish-api/app_data/jobs/continuous/worker
     - name: Deploy API to Azure App Service
       uses: azure/webapps-deploy@v3
       with:
@@ -41,22 +35,16 @@ jobs:
     steps:
     - name: Checkout Source Code
       uses: actions/checkout@v4
-
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-
-    - name: Restore Dependencies (Web)
+    - name: Restore Dependencies
       run: dotnet restore
-
     - name: Build Web Project
       run: dotnet build --configuration Release
-
-    # Ajustado de acordo com a sua pasta CadastroClientes.Web
     - name: Publish Web Project
       run: dotnet publish ./CadastroClientes.Web/CadastroClientes.Web.csproj -c Release -o ./publish-web
-
     - name: Deploy Web App to Azure App Service
       uses: azure/webapps-deploy@v3
       with:
