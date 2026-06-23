@@ -71,17 +71,17 @@ public class RabbitMqConsumerWorker : BackgroundService
                     return;
                 }
 
-                _logger.LogInformation("Mensagem recebida para cliente {ClienteId}.", evento.ClienteId);
+                _logger.LogInformation("Mensagem recebida para cliente {ClienteId}. Canal: {Canal}", evento.ClienteId, evento.Canal);
 
                 using var scope = _scopeFactory.CreateScope();
-                var useCase = scope.ServiceProvider.GetRequiredService<ProcessarEnvioEmailUseCase>();
 
-                await useCase.Executar(
-                    evento.ClienteId,
-                    evento.Nome,
-                    evento.Email,
-                    evento.Celular,
-                    evento.Mensagem);
+                // Email SEMPRE
+                var emailUseCase = scope.ServiceProvider.GetRequiredService<ProcessarEnvioEmailUseCase>();
+                await emailUseCase.Executar(evento.ClienteId, evento.Nome, evento.Email, evento.Celular, evento.Mensagem);
+
+                // SMS SEMPRE
+                var smsUseCase = scope.ServiceProvider.GetRequiredService<ProcessarEnvioSmsUseCase>();
+                await smsUseCase.Executar(evento.ClienteId, evento.Nome, evento.Email, evento.Celular, evento.Mensagem);
 
                 _channel.BasicAck(ea.DeliveryTag, multiple: false);
             }

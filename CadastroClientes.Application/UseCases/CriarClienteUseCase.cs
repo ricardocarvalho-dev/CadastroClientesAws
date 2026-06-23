@@ -59,7 +59,8 @@ public class CriarClienteUseCase
                 clienteCriado.Nome,
                 clienteCriado.Email,
                 clienteCriado.Celular,
-                clienteCriado.Mensagem);
+                clienteCriado.Mensagem,
+                dto.Canal);
 
             // ✅ FIX: Mensagem incluída no retorno
             return new ClienteDto

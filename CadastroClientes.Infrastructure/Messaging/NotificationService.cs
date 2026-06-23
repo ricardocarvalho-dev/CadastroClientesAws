@@ -18,7 +18,7 @@ public class NotificationService : IMessagingService
         _connectionFactory = connectionFactory;
     }
 
-    public Task PublicarCriacaoClienteAsync(Guid clienteId, string nome, string email, string celular, string mensagem)
+    public Task PublicarCriacaoClienteAsync(Guid clienteId, string nome, string email, string celular, string mensagem, string canal = "Email")
     {
         try
         {
@@ -38,7 +38,8 @@ public class NotificationService : IMessagingService
                 nome,
                 email,
                 celular,
-                mensagem,           // ← novo campo
+                mensagem,
+                canal,                          // ← novo campo
                 dataCadastro = DateTime.UtcNow,
                 tipo = "cliente.criado"
             };
@@ -57,8 +58,8 @@ public class NotificationService : IMessagingService
                 basicProperties: properties,
                 body: body);
 
-            _logger.LogInformation("Mensagem publicada na fila {Fila} para cliente {ClienteId}",
-                QUEUE_NAME, clienteId);
+            _logger.LogInformation("Mensagem publicada na fila {Fila} para cliente {ClienteId}. Canal: {Canal}",
+                QUEUE_NAME, clienteId, canal);
 
             return Task.CompletedTask;
         }

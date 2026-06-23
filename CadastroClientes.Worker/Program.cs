@@ -6,6 +6,7 @@ using CadastroClientes.Infrastructure.Repositories;
 using CadastroClientes.Worker;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
+using CadastroClientes.Infrastructure.Sms;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -42,6 +43,10 @@ builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
 // E-mail via Resend
 builder.Services.AddHttpClient<IEmailService, ResendEmailService>();
+
+// SMS via Twilio
+builder.Services.AddSingleton<ISmsService, TwilioSmsService>();
+builder.Services.AddScoped<ProcessarEnvioSmsUseCase>();
 
 // Repositórios e Use Cases
 builder.Services.AddScoped<IHistoricoEnvioMensagemRepository, HistoricoEnvioMensagemRepository>();

@@ -9,4 +9,5 @@ public class ClienteCriadoEvento
     public string Mensagem { get; set; } = string.Empty;
     public DateTime DataCadastro { get; set; }
     public string Tipo { get; set; } = string.Empty;
+    public string Canal { get; set; } = "Email";
 }
