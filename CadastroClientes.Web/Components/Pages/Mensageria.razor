@@ -1,0 +1,268 @@
+@page "/mensageria"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject IHttpClientFactory HttpClientFactory
+
+<PageTitle>Mensageria | Ricardodev Solução WEB</PageTitle>
+
+<div class="msg-wrapper">
+    <main class="msg-main">
+
+        <div class="cc-back-bar">
+            <a href="/" class="cc-btn-back">← Voltar ao menu</a>
+        </div>
+        <div class="cc-page-header">
+            <h1 class="cc-page-title">📨 Histórico de Mensageria</h1>
+            <p class="msg-subtitle">Registro de envios de Email e SMS por cadastro de cliente</p>
+        </div>
+
+        @if (carregando)
+        {
+            <div class="msg-loading">
+                <div class="msg-spinner"></div>
+                <span>Carregando histórico...</span>
+            </div>
+        }
+        else if (erro is not null)
+        {
+            <div class="msg-alert msg-alert-error">
+                ⚠️ @erro
+            </div>
+        }
+        else
+        {
+            <!-- Cards de resumo -->
+            <div class="msg-summary-grid">
+                <div class="msg-summary-card">
+                    <span class="msg-summary-icon">📨</span>
+                    <div>
+                        <div class="msg-summary-value">@historicos.Count</div>
+                        <div class="msg-summary-label">Total de Envios</div>
+                    </div>
+                </div>
+                <div class="msg-summary-card">
+                    <span class="msg-summary-icon">✅</span>
+                    <div>
+                        <div class="msg-summary-value">@historicos.Count(h => h.Status == "Sucesso")</div>
+                        <div class="msg-summary-label">Enviados com Sucesso</div>
+                    </div>
+                </div>
+                <div class="msg-summary-card">
+                    <span class="msg-summary-icon">❌</span>
+                    <div>
+                        <div class="msg-summary-value">@historicos.Count(h => h.Status == "Falha")</div>
+                        <div class="msg-summary-label">Falhas</div>
+                    </div>
+                </div>
+                <div class="msg-summary-card">
+                    <span class="msg-summary-icon">📧</span>
+                    <div>
+                        <div class="msg-summary-value">@historicos.Count(h => h.Canal == "Email")</div>
+                        <div class="msg-summary-label">E-mails</div>
+                    </div>
+                </div>
+                <div class="msg-summary-card">
+                    <span class="msg-summary-icon">💬</span>
+                    <div>
+                        <div class="msg-summary-value">@historicos.Count(h => h.Canal == "SMS")</div>
+                        <div class="msg-summary-label">SMS</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="msg-filters">
+                <select class="msg-select" @bind="filtroCanal">
+                    <option value="">Todos os canais</option>
+                    <option value="Email">Email</option>
+                    <option value="SMS">SMS</option>
+                </select>
+                <select class="msg-select" @bind="filtroStatus">
+                    <option value="">Todos os status</option>
+                    <option value="Sucesso">Sucesso</option>
+                    <option value="Falha">Falha</option>
+                </select>
+            </div>
+
+            <!-- Tabela -->
+            @if (!HistoricosFiltrados.Any())
+            {
+                <div class="msg-empty">Nenhum registro encontrado para os filtros selecionados.</div>
+            }
+            else
+            {
+                <div class="msg-table-wrapper">
+                    <table class="msg-table">
+                        <thead>
+                            <tr>
+                                <th>Canal</th>
+                                <th>Destinatário</th>
+                                <th>Status</th>
+                                <th>Data Envio</th>
+                                <th>Provider ID</th>
+                                <th>Erro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var h in HistoricosFiltrados)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="msg-badge msg-badge-canal @(h.Canal == "Email" ? "email" : "sms")">
+                                            @(h.Canal == "Email" ? "📧" : "💬") @h.Canal
+                                        </span>
+                                    </td>
+                                    <td class="msg-destinatario">@h.Destinatario</td>
+                                    <td>
+                                        <span class="msg-badge @(h.Status == "Sucesso" ? "msg-badge-sucesso" : "msg-badge-falha")">
+                                            @(h.Status == "Sucesso" ? "✅" : "❌") @h.Status
+                                        </span>
+                                    </td>
+                                    <td class="msg-data">@h.DataEnvio.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="msg-provider">
+                                        @if (!string.IsNullOrEmpty(h.ProviderMessageId))
+                                        {
+                                            <span title="@h.ProviderMessageId">@h.ProviderMessageId[..Math.Min(12, h.ProviderMessageId.Length)]…</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="msg-vazio">—</span>
+                                        }
+                                    </td>
+                                    <td class="msg-erro">
+                                        @if (!string.IsNullOrEmpty(h.MensagemErro))
+                                        {
+                                            <span class="msg-erro-text" title="@h.MensagemErro">
+                                                @(h.MensagemErro.Length > 40 ? h.MensagemErro[..40] + "…" : h.MensagemErro)
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="msg-vazio">—</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+
+    </main>
+</div>
+
+<style>
+    .msg-wrapper { min-height: 100vh; background: #f0f2f5; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .msg-main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+    /* Header padronizado igual ao CadastroCliente */
+    .cc-back-bar { margin-bottom: 1.25rem; }
+    .cc-btn-back { display: inline-flex; align-items: center; gap: .4rem; color: #4f46e5; font-size: .88rem; font-weight: 600; text-decoration: none; padding: .4rem .9rem; border-radius: 8px; border: 1.5px solid #eef2ff; background: #eef2ff; transition: all .2s; }
+    .cc-btn-back:hover { background: #4f46e5; color: #fff; }
+    .cc-page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: .5rem; }
+    .cc-page-title { font-size: 1.2rem; font-weight: 700; color: #111827; margin: 0; }
+    .msg-subtitle { font-size: .9rem; color: #6b7280; margin: 0; }
+
+    /* Loading */
+    .msg-loading { display: flex; align-items: center; gap: 1rem; padding: 3rem; justify-content: center; color: #6b7280; }
+    .msg-spinner { width: 24px; height: 24px; border: 3px solid #e5e7eb; border-top-color: #4f46e5; border-radius: 50%; animation: spin .7s linear infinite; }
+    @@keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Alert */
+    .msg-alert { padding: 1rem 1.25rem; border-radius: 10px; font-size: .9rem; }
+    .msg-alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* Summary cards */
+    .msg-summary-grid { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .msg-summary-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 1rem 1.25rem; display: flex; align-items: center; gap: .75rem; min-width: 130px; flex: 1; }
+    .msg-summary-icon { font-size: 1.6rem; }
+    .msg-summary-value { font-size: 1.5rem; font-weight: 800; color: #111827; line-height: 1; }
+    .msg-summary-label { font-size: .75rem; color: #6b7280; margin-top: .2rem; }
+
+    /* Filtros */
+    .msg-filters { display: flex; gap: .75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .msg-select { padding: .5rem .9rem; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: .875rem; color: #374151; background: #fff; cursor: pointer; outline: none; }
+    .msg-select:focus { border-color: #4f46e5; }
+
+    /* Empty */
+    .msg-empty { text-align: center; padding: 3rem; color: #9ca3af; font-size: .95rem; }
+
+    /* Table */
+    .msg-table-wrapper { background: #fff; border-radius: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow-x: auto; }
+    .msg-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    .msg-table thead tr { background: #f9fafb; border-bottom: 2px solid #e5e7eb; }
+    .msg-table th { padding: .85rem 1rem; text-align: left; font-size: .75rem; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+    .msg-table tbody tr { border-bottom: 1px solid #f3f4f6; transition: background .15s; }
+    .msg-table tbody tr:last-child { border-bottom: none; }
+    .msg-table tbody tr:hover { background: #f9fafb; }
+    .msg-table td { padding: .85rem 1rem; vertical-align: middle; }
+
+    /* Badges */
+    .msg-badge { display: inline-flex; align-items: center; gap: .3rem; padding: .25rem .65rem; border-radius: 20px; font-size: .75rem; font-weight: 700; white-space: nowrap; }
+    .msg-badge-canal.email { background: #eff6ff; color: #1d4ed8; }
+    .msg-badge-canal.sms { background: #f0fdf4; color: #15803d; }
+    .msg-badge-sucesso { background: #f0fdf4; color: #15803d; }
+    .msg-badge-falha { background: #fef2f2; color: #dc2626; }
+
+    .msg-destinatario { color: #374151; font-weight: 500; }
+    .msg-data { color: #6b7280; white-space: nowrap; }
+    .msg-provider { color: #9ca3af; font-size: .8rem; font-family: monospace; }
+    .msg-erro-text { color: #dc2626; font-size: .8rem; cursor: help; }
+    .msg-vazio { color: #d1d5db; }
+
+    @@media (max-width: 600px) {
+        .msg-main { padding: 1.5rem 1rem; }
+.msg-summary-grid { gap: .75rem; }
+        .msg-summary-card { min-width: 100px; }
+    }
+</style>
+
+@code {
+    private List<HistoricoEnvioMensagemDto> historicos = new();
+    private string? erro;
+    private bool carregando = true;
+    private string filtroCanal = "";
+    private string filtroStatus = "";
+
+    private IEnumerable<HistoricoEnvioMensagemDto> HistoricosFiltrados =>
+        historicos
+            .Where(h => string.IsNullOrEmpty(filtroCanal) || h.Canal == filtroCanal)
+            .Where(h => string.IsNullOrEmpty(filtroStatus) || h.Status == filtroStatus);
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var http = HttpClientFactory.CreateClient("CadastroAPI");
+            var resposta = await http.GetFromJsonAsync<MensageriaResponse>("api/mensageria");
+            historicos = resposta?.Historicos ?? new();
+        }
+        catch (Exception ex)
+        {
+            erro = $"Não foi possível carregar o histórico: {ex.Message}";
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    private class MensageriaResponse
+    {
+        public string Mensagem { get; set; } = string.Empty;
+        public List<HistoricoEnvioMensagemDto> Historicos { get; set; } = new();
+    }
+
+    private class HistoricoEnvioMensagemDto
+    {
+        public Guid Id { get; set; }
+        public Guid ClienteId { get; set; }
+        public string Canal { get; set; } = string.Empty;
+        public string Destinatario { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public string? MensagemErro { get; set; }
+        public string? ProviderMessageId { get; set; }
+        public DateTime DataEnvio { get; set; }
+    }
+}

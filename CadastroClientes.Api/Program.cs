@@ -61,6 +61,7 @@ builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
 // Registro dos Repositórios e Serviços
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IHistoricoEnvioMensagemRepository, HistoricoEnvioMensagemRepository>();
 builder.Services.AddScoped<IMessagingService, NotificationService>();
 
 // Registro dos Use Cases

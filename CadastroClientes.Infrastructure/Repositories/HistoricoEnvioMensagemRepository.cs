@@ -26,4 +26,11 @@ public class HistoricoEnvioMensagemRepository : IHistoricoEnvioMensagemRepositor
         return await _context.HistoricosEnvioMensagem
             .AnyAsync(h => h.ClienteId == clienteId && h.Canal == canal && h.Status == "Sucesso");
     }
+
+    public async Task<IEnumerable<HistoricoEnvioMensagem>> ListarAsync()
+    {
+        return await _context.HistoricosEnvioMensagem
+            .OrderByDescending(h => h.DataEnvio)
+            .ToListAsync();
+    }
 }
