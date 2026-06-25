@@ -90,6 +90,9 @@ app.UseHttpsRedirection();
 app.UseCors("AllowBlazor");
 app.MapControllers();
 
+// Health check para UptimeRobot
+app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));
+
 // Cria/Migra o banco na inicialização com logging explícito
 using (var scope = app.Services.CreateScope())
 {
