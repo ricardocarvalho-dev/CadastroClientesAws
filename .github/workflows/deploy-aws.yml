@@ -66,7 +66,7 @@ jobs:
       run: dotnet publish ./CadastroClientes.Web/CadastroClientes.Web.csproj -c Release -o ./publish-web
 
     - name: Create Procfile for Web
-      run: echo "web: dotnet CadastroClientes.Web.dll" > ./publish-web/Procfile
+      run: printf 'web: dotnet CadastroClientes.Web.dll\n' > ./publish-web/Procfile
 
     - name: Zip publish folder contents
       run: cd ./publish-web && zip -r ../deploy-web.zip .
