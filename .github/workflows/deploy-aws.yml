@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-api:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,15 +25,15 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish API Project
-      run: dotnet publish ./CadastroClientes.Api/CadastroClientes.Api.csproj -c Release -o ./publish
+      run: dotnet publish ./CadastroClientes.Api/CadastroClientes.Api.csproj -c Release -o ./publish-api
 
     - name: Copy Procfile to publish folder
-      run: cp Procfile ./publish/Procfile
+      run: cp Procfile ./publish-api/Procfile
 
     - name: Zip publish folder contents
-      run: cd ./publish && zip -r ../deploy.zip .
+      run: cd ./publish-api && zip -r ../deploy-api.zip .
 
-    - name: Deploy to Elastic Beanstalk
+    - name: Deploy API to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v22
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -41,5 +41,43 @@ jobs:
         application_name: cadastro-clientes-aws
         environment_name: ricardodev-cadastro-aws-env
         region: us-east-2
-        deployment_package: deploy.zip
-        version_label: ${{ github.sha }}
+        deployment_package: deploy-api.zip
+        version_label: api-${{ github.sha }}
+
+  build-and-deploy-web:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build Solution
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish Web Project
+      run: dotnet publish ./CadastroClientes.Web/CadastroClientes.Web.csproj -c Release -o ./publish-web
+
+    - name: Create Procfile for Web
+      run: echo "web: dotnet CadastroClientes.Web.dll" > ./publish-web/Procfile
+
+    - name: Zip publish folder contents
+      run: cd ./publish-web && zip -r ../deploy-web.zip .
+
+    - name: Deploy Web to Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v22
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: cadastro-clientes-aws
+        environment_name: ricardodev-cadastro-aws-web-env
+        region: us-east-2
+        deployment_package: deploy-web.zip
+        version_label: web-${{ github.sha }}
