@@ -27,8 +27,11 @@ jobs:
     - name: Publish API Project
       run: dotnet publish ./CadastroClientes.Api/CadastroClientes.Api.csproj -c Release -o ./publish
 
-    - name: Zip publish folder
-      run: zip -r deploy.zip ./publish
+    - name: Copy Procfile to publish folder
+      run: cp Procfile ./publish/Procfile
+
+    - name: Zip publish folder contents
+      run: cd ./publish && zip -r ../deploy.zip .
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v22
