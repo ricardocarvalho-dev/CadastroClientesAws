@@ -83,3 +83,6 @@ coverage.opencover.xml
 # Azure Files
 azure-pipelines.yml
 #
+publish-web-test/
+publish-api/
+publish-web/
