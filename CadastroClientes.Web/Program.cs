@@ -65,6 +65,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseHttpsRedirection();
 }
 else
 {
@@ -79,7 +80,7 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
