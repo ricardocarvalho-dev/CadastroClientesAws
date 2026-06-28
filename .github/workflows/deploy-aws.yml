@@ -8,31 +8,23 @@ on:
 jobs:
   build-and-deploy-api:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout Source Code
       uses: actions/checkout@v4
-
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-
     - name: Restore Dependencies
       run: dotnet restore
-
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
-
     - name: Publish API Project
       run: dotnet publish ./CadastroClientes.Api/CadastroClientes.Api.csproj -c Release -o ./publish-api
-
     - name: Copy Procfile to publish folder
       run: cp Procfile ./publish-api/Procfile
-
     - name: Zip publish folder contents
       run: cd ./publish-api && zip -r ../deploy-api.zip .
-
     - name: Deploy API to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v22
       with:
@@ -46,31 +38,23 @@ jobs:
 
   build-and-deploy-web:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout Source Code
       uses: actions/checkout@v4
-
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-
     - name: Restore Dependencies
       run: dotnet restore
-
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
-
     - name: Publish Web Project
       run: dotnet publish ./CadastroClientes.Web/CadastroClientes.Web.csproj -c Release -o ./publish-web
-
     - name: Create Procfile for Web
       run: printf 'web: dotnet CadastroClientes.Web.dll\n' > ./publish-web/Procfile
-
     - name: Zip publish folder contents
       run: cd ./publish-web && zip -r ../deploy-web.zip .
-
     - name: Deploy Web to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v22
       with:
