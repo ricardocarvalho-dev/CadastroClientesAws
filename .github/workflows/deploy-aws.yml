@@ -52,7 +52,7 @@ jobs:
     - name: Publish Web Project
       run: dotnet publish ./CadastroClientes.Web/CadastroClientes.Web.csproj -c Release -o ./publish-web
     - name: Create Procfile for Web
-      run: echo web-dotnet > ./publish-web/Procfile
+      run: cp Procfile-Web ./publish-web/Procfile
     - name: Zip publish folder contents
       run: cd ./publish-web && zip -r ../deploy-web.zip .
     - name: Deploy Web to Elastic Beanstalk
