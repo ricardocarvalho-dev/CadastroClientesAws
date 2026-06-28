@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure logging para Azure
+// Configure logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.WebHost.CaptureStartupErrors(true).UseSetting("detailedErrors", "true");
@@ -14,19 +14,19 @@ builder.WebHost.CaptureStartupErrors(true).UseSetting("detailedErrors", "true");
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Obtém a String de Conexão segura do Azure (definida nas Environment Variables / Configuration)
+// Obtém a String de Conexão do Supabase (PostgreSQL)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-// Configura o Identity para usar o SQL Server (Azure SQL)
+// Configura o Identity para usar PostgreSQL (Supabase)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString, sqlOptions =>
-        sqlOptions.EnableRetryOnFailure(
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+        npgsqlOptions.EnableRetryOnFailure(
             maxRetryCount: 5,
             maxRetryDelay: TimeSpan.FromSeconds(10),
-            errorNumbersToAdd: null
+            errorCodesToAdd: null
         )
-    ));    
+    ));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -50,9 +50,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/Login";
 });
 
+// URL da API aponta agora para o Elastic Beanstalk (AWS)
 builder.Services.AddHttpClient("CadastroAPI", httpClient =>
 {
-    var apiUri = builder.Configuration["ApiBaseUrl"] ?? "https://ricardodev-solucaoweb-api.azurewebsites.net";
+    var apiUri = builder.Configuration["ApiBaseUrl"] ?? "http://localhost:5000";
     httpClient.BaseAddress = new Uri(apiUri);
 });
 
@@ -93,7 +94,7 @@ using (var scope = app.Services.CreateScope())
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
     try
     {
-        Console.WriteLine(">>> Iniciando EF Core Migrate para Web App no Azure SQL...");
+        Console.WriteLine(">>> Iniciando EF Core Migrate para Web App no Supabase...");
         logger.LogInformation("Applying migrations to Web App...");
         await db.Database.MigrateAsync();
         Console.WriteLine(">>> EF Core Migrate concluído com sucesso.");
@@ -101,7 +102,7 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        Console.WriteLine($">>> Erro ao aplicar migrations no Azure SQL: {ex.Message}");
+        Console.WriteLine($">>> Erro ao aplicar migrations no Supabase: {ex.Message}");
         logger.LogError(ex, "Error applying migrations");
     }
 }

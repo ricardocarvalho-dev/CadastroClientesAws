@@ -8,7 +8,7 @@ using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Habilita logging para console (capturado pelo Azure Log Stream)
+// Habilita logging para console
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.WebHost.CaptureStartupErrors(true).UseSetting("detailedErrors", "true");
@@ -17,29 +17,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configura o Banco de Dados para usar SQLite com caminho persistente no Azure
+// Configura o Banco de Dados PostgreSQL (Supabase)
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    
+
     if (!string.IsNullOrEmpty(connectionString))
     {
-        options.UseSqlServer(connectionString, sqlOptions =>
+        options.UseNpgsql(connectionString, npgsqlOptions =>
         {
-            sqlOptions.EnableRetryOnFailure(
+            npgsqlOptions.EnableRetryOnFailure(
                 maxRetryCount: 5,
                 maxRetryDelay: TimeSpan.FromSeconds(30),
-                errorNumbersToAdd: null);
+                errorCodesToAdd: null);
         });
     }
     else
     {
-        string dataPath = Path.Combine(AppContext.BaseDirectory, "data");
-        if (!Directory.Exists(dataPath))
-            Directory.CreateDirectory(dataPath);
-        var dbPath = Path.Combine(dataPath, "cadastroclientes.db");
-        SQLitePCL.Batteries.Init();
-        options.UseSqlite($"Data Source={dbPath}");
+        throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada.");
     }
 });
 
@@ -90,10 +85,10 @@ app.UseHttpsRedirection();
 app.UseCors("AllowBlazor");
 app.MapControllers();
 
-// Health check para UptimeRobot
+// Health check
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));
 
-// Cria/Migra o banco na inicialização com logging explícito
+// Cria/Migra o banco na inicialização
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
