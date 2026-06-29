@@ -1,14 +1,17 @@
+using Amazon.Runtime;
+using Amazon.SQS;
 using CadastroClientes.Application.Interfaces;
 using CadastroClientes.Application.UseCases;
 using CadastroClientes.Infrastructure.Data;
+using CadastroClientes.Infrastructure.Email;
 using CadastroClientes.Infrastructure.Messaging;
 using CadastroClientes.Infrastructure.Repositories;
+using CadastroClientes.Infrastructure.Sms;
+using CadastroClientes.Worker;
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Habilita logging para console
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.WebHost.CaptureStartupErrors(true).UseSetting("detailedErrors", "true");
@@ -17,55 +20,48 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configura o Banco de Dados PostgreSQL (Supabase)
+// Banco PostgreSQL (Supabase)
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada.");
 
-    if (!string.IsNullOrEmpty(connectionString))
-    {
-        options.UseNpgsql(connectionString, npgsqlOptions =>
-        {
-            npgsqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: TimeSpan.FromSeconds(30),
-                errorCodesToAdd: null);
-        });
-    }
-    else
-    {
-        throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada.");
-    }
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+        npgsqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorCodesToAdd: null));
 });
 
-// Configura RabbitMQ
-var rabbitMqUri = builder.Configuration["RabbitMQ:Uri"] ?? "amqp://guest:guest@localhost:5672/";
-var connectionFactory = new ConnectionFactory
-{
-    Uri = new Uri(rabbitMqUri),
-    DispatchConsumersAsync = true,
-    Ssl = new SslOption
-    {
-        Enabled = rabbitMqUri.StartsWith("amqps"),
-        AcceptablePolicyErrors = System.Net.Security.SslPolicyErrors.RemoteCertificateNameMismatch |
-                                 System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors
-    }
-};
+// AWS SQS
+var awsAccessKey = builder.Configuration["AWS:AccessKeyId"]
+    ?? throw new InvalidOperationException("AWS:AccessKeyId não configurado.");
+var awsSecretKey = builder.Configuration["AWS:SecretAccessKey"]
+    ?? throw new InvalidOperationException("AWS:SecretAccessKey não configurado.");
+var awsRegion = builder.Configuration["AWS:Region"] ?? "us-east-2";
 
-builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
+var awsCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+var sqsClient = new AmazonSQSClient(awsCredentials, Amazon.RegionEndpoint.GetBySystemName(awsRegion));
+builder.Services.AddSingleton<IAmazonSQS>(sqsClient);
 
-// Registro dos Repositórios e Serviços
+// Repositórios e Serviços
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IHistoricoEnvioMensagemRepository, HistoricoEnvioMensagemRepository>();
-builder.Services.AddScoped<IMessagingService, NotificationService>();
+builder.Services.AddScoped<IMessagingService, SqsNotificationService>();
 
-// Registro dos Use Cases
+// Email e SMS para o Worker
+builder.Services.AddHttpClient<IEmailService, ResendEmailService>();
+builder.Services.AddSingleton<ISmsService, TwilioSmsService>();
+
+// Use Cases
 builder.Services.AddScoped<CriarClienteUseCase>();
 builder.Services.AddScoped<ListarClientesUseCase>();
 builder.Services.AddScoped<AtualizarClienteUseCase>();
 builder.Services.AddScoped<ExcluirClienteUseCase>();
+builder.Services.AddScoped<ProcessarEnvioEmailUseCase>();
+builder.Services.AddScoped<ProcessarEnvioSmsUseCase>();
 
-// CORS para permitir requisições do Blazor Web
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazor", policy =>
@@ -76,19 +72,19 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Worker SQS rodando junto à API
+builder.Services.AddHostedService<SqsConsumerWorker>();
+
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
 app.UseCors("AllowBlazor");
 app.MapControllers();
 
-// Health check
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));
 
-// Cria/Migra o banco na inicialização
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();

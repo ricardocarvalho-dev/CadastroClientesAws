@@ -1,47 +1,44 @@
+using Amazon.SQS;
+using Amazon.Runtime;
 using CadastroClientes.Application.Interfaces;
 using CadastroClientes.Application.UseCases;
 using CadastroClientes.Infrastructure.Data;
 using CadastroClientes.Infrastructure.Email;
 using CadastroClientes.Infrastructure.Repositories;
+using CadastroClientes.Infrastructure.Sms;
 using CadastroClientes.Worker;
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
-using CadastroClientes.Infrastructure.Sms;
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-// Banco de dados (Azure SQL) — mesma connection string usada na API
+// Banco PostgreSQL (Supabase)
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseSqlServer(connectionString, sqlOptions =>
-    {
-        sqlOptions.EnableRetryOnFailure(
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada.");
+
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+        npgsqlOptions.EnableRetryOnFailure(
             maxRetryCount: 5,
             maxRetryDelay: TimeSpan.FromSeconds(30),
-            errorNumbersToAdd: null);
-    });
+            errorCodesToAdd: null));
 });
 
-// RabbitMQ — mesma URI amqps:// usada na API
-var rabbitMqUri = builder.Configuration["RabbitMQ:Uri"] ?? "amqp://guest:guest@localhost:5672/";
-var connectionFactory = new ConnectionFactory
-{
-    Uri = new Uri(rabbitMqUri),
-    DispatchConsumersAsync = true,
-    Ssl = new SslOption
-    {
-        Enabled = rabbitMqUri.StartsWith("amqps"),
-        AcceptablePolicyErrors = System.Net.Security.SslPolicyErrors.RemoteCertificateNameMismatch |
-                                 System.Net.Security.SslPolicyErrors.RemoteCertificateChainErrors
-    }
-};
-builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
+// AWS SQS
+var awsAccessKey = builder.Configuration["AWS:AccessKeyId"]
+    ?? throw new InvalidOperationException("AWS:AccessKeyId não configurado.");
+var awsSecretKey = builder.Configuration["AWS:SecretAccessKey"]
+    ?? throw new InvalidOperationException("AWS:SecretAccessKey não configurado.");
+var awsRegion = builder.Configuration["AWS:Region"] ?? "us-east-2";
 
-// E-mail via Resend
+var awsCredentials = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+var sqsClient = new AmazonSQSClient(awsCredentials, Amazon.RegionEndpoint.GetBySystemName(awsRegion));
+builder.Services.AddSingleton<IAmazonSQS>(sqsClient);
+
+// Email via Resend
 builder.Services.AddHttpClient<IEmailService, ResendEmailService>();
 
 // SMS via Twilio
@@ -52,8 +49,8 @@ builder.Services.AddScoped<ProcessarEnvioSmsUseCase>();
 builder.Services.AddScoped<IHistoricoEnvioMensagemRepository, HistoricoEnvioMensagemRepository>();
 builder.Services.AddScoped<ProcessarEnvioEmailUseCase>();
 
-// Worker que consome a fila do RabbitMQ
-builder.Services.AddHostedService<RabbitMqConsumerWorker>();
+// Worker SQS
+builder.Services.AddHostedService<SqsConsumerWorker>();
 
 var host = builder.Build();
 host.Run();
