@@ -1,5 +1,6 @@
 using CadastroClientes.Web.Components;
 using CadastroClientes.Web.Data;
+using Microsoft.AspNetCore.HttpOverrides; // 👈 ADICIONADO
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,6 +62,12 @@ builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
 
 var app = builder.Build();
+
+// 👇 ADICIONADO — precisa vir logo após o Build(), antes de qualquer outro app.Use...
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 if (app.Environment.IsDevelopment())
 {
