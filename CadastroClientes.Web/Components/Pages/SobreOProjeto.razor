@@ -1,0 +1,415 @@
+@page "/sobre-o-projeto"
+@attribute [Authorize]
+@rendermode InteractiveServer
+
+<PageTitle>Arquitetura & Tecnologias</PageTitle>
+
+<div class="sp-wrapper">
+    <main class="sp-main">
+
+        <div class="sp-back-bar">
+            <a href="/" class="sp-btn-back">← Voltar ao menu</a>
+        </div>
+
+        <div class="sp-page-header">
+            <h1 class="sp-page-title">🏗️ Arquitetura & Tecnologias</h1>
+            <p class="sp-page-subtitle">Como este sistema foi construído, hospedado e integrado — do cadastro do cliente ao disparo da mensagem.</p>
+        </div>
+
+        <!-- ================= DIAGRAMA DE ARQUITETURA ================= -->
+        <section class="sp-card">
+            <div class="sp-card-header">
+                <span class="sp-card-icon">🗺️</span>
+                <h2 class="sp-card-title">Visão geral da arquitetura</h2>
+            </div>
+            <div class="sp-card-body">
+
+                <div class="sp-diagram">
+
+                    <div class="sp-diag-row">
+                        <div class="sp-node sp-node-user">
+                            <span class="sp-node-icon">🧑‍💻</span>
+                            <span class="sp-node-label">Usuário</span>
+                            <span class="sp-node-sub">Navegador</span>
+                        </div>
+                        <div class="sp-arrow">→</div>
+                        <div class="sp-node sp-node-cf">
+                            <span class="sp-node-icon">☁️</span>
+                            <span class="sp-node-label">Cloudflare</span>
+                            <span class="sp-node-sub">DNS · SSL Flexible</span>
+                        </div>
+                        <div class="sp-arrow">→</div>
+                        <div class="sp-node sp-node-web">
+                            <span class="sp-node-icon">🖥️</span>
+                            <span class="sp-node-label">app.evoluasoftware.com.br</span>
+                            <span class="sp-node-sub">AWS Elastic Beanstalk · Blazor Server</span>
+                        </div>
+                        <div class="sp-arrow">→</div>
+                        <div class="sp-node sp-node-api">
+                            <span class="sp-node-icon">🔌</span>
+                            <span class="sp-node-label">api.evoluasoftware.com.br</span>
+                            <span class="sp-node-sub">AWS Elastic Beanstalk · .NET 8 API</span>
+                        </div>
+                    </div>
+
+                    <div class="sp-diag-row sp-diag-row-branch">
+                        <div class="sp-branch-spacer"></div>
+                        <div class="sp-branch-line"></div>
+                        <div class="sp-branch-cols">
+                            <div class="sp-branch-col">
+                                <div class="sp-arrow-down">↓</div>
+                                <div class="sp-node sp-node-db">
+                                    <span class="sp-node-icon">🗄️</span>
+                                    <span class="sp-node-label">Supabase</span>
+                                    <span class="sp-node-sub">PostgreSQL · EF Core</span>
+                                </div>
+                            </div>
+                            <div class="sp-branch-col">
+                                <div class="sp-arrow-down">↓</div>
+                                <div class="sp-node sp-node-mq">
+                                    <span class="sp-node-icon">📨</span>
+                                    <span class="sp-node-label">RabbitMQ</span>
+                                    <span class="sp-node-sub">Fila de mensageria</span>
+                                </div>
+                                <div class="sp-arrow-down">↓</div>
+                                <div class="sp-node sp-node-msg">
+                                    <span class="sp-node-icon">📧</span>
+                                    <span class="sp-node-label">Email + SMS</span>
+                                    <span class="sp-node-sub">Consumer grava histórico no Postgres</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="sp-legend">
+                    <span class="sp-legend-item"><span class="sp-dot sp-dot-web"></span> Front-end (Blazor Server)</span>
+                    <span class="sp-legend-item"><span class="sp-dot sp-dot-api"></span> Back-end (API REST)</span>
+                    <span class="sp-legend-item"><span class="sp-dot sp-dot-db"></span> Persistência</span>
+                    <span class="sp-legend-item"><span class="sp-dot sp-dot-mq"></span> Mensageria assíncrona</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= STACK TECNOLÓGICA ================= -->
+        <section class="sp-card">
+            <div class="sp-card-header">
+                <span class="sp-card-icon">🧰</span>
+                <h2 class="sp-card-title">Stack tecnológica</h2>
+            </div>
+            <div class="sp-card-body">
+                <div class="sp-tech-grid">
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">🅱️</span>
+                        <div>
+                            <strong>Blazor Server</strong>
+                            <p>Front-end interativo em C#, renderizado no servidor (<code>@@rendermode InteractiveServer</code>), sem necessidade de escrever JavaScript para a UI.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">🔷</span>
+                        <div>
+                            <strong>.NET 8</strong>
+                            <p>Runtime e framework base tanto da aplicação Web quanto da API REST, seguindo uma separação em camadas (Api · Application · Domain).</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">🐘</span>
+                        <div>
+                            <strong>PostgreSQL (Supabase)</strong>
+                            <p>Banco de dados relacional gerenciado, acessado via Entity Framework Core com o provider Npgsql.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">🔐</span>
+                        <div>
+                            <strong>ASP.NET Identity</strong>
+                            <p>Autenticação e autorização (login, cookies, políticas de senha) integradas ao mesmo banco Postgres via EF Core.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">📨</span>
+                        <div>
+                            <strong>RabbitMQ</strong>
+                            <p>Fila de mensageria assíncrona: desacopla o cadastro do cliente do envio efetivo de e-mail e SMS.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">☁️</span>
+                        <div>
+                            <strong>AWS Elastic Beanstalk</strong>
+                            <p>Hospedagem da Web e da API, com deploy automatizado via GitHub Actions a cada push.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">🌐</span>
+                        <div>
+                            <strong>Cloudflare</strong>
+                            <p>DNS (CNAMEs proxied) e SSL/TLS para o domínio próprio <code>evoluasoftware.com.br</code>.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">🔁</span>
+                        <div>
+                            <strong>GitHub Actions</strong>
+                            <p>Pipeline de CI/CD: cada commit na branch principal gera um novo deploy automático no Elastic Beanstalk.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= BANCO DE DADOS ================= -->
+        <section class="sp-card">
+            <div class="sp-card-header">
+                <span class="sp-card-icon">🗄️</span>
+                <h2 class="sp-card-title">Banco de dados</h2>
+            </div>
+            <div class="sp-card-body">
+                <p class="sp-text">
+                    O banco é um <strong>PostgreSQL gerenciado pelo Supabase</strong>, acessado pela aplicação através do
+                    <strong>Entity Framework Core</strong> com o provider <code>Npgsql</code>. A política de retry
+                    (<code>EnableRetryOnFailure</code>) protege contra instabilidades momentâneas de rede entre o
+                    Elastic Beanstalk e o Supabase.
+                </p>
+
+                <div class="sp-db-tables">
+                    <div class="sp-db-table">
+                        <span class="sp-db-table-icon">👥</span>
+                        <div>
+                            <strong>AspNetUsers / AspNetRoles</strong>
+                            <p>Tabelas do ASP.NET Identity — usuários, roles e claims de autenticação do sistema.</p>
+                        </div>
+                    </div>
+                    <div class="sp-db-table">
+                        <span class="sp-db-table-icon">📋</span>
+                        <div>
+                            <strong>Clientes</strong>
+                            <p>Dados de cadastro: nome, e-mail, celular e a mensagem de boas-vindas informada no formulário.</p>
+                        </div>
+                    </div>
+                    <div class="sp-db-table">
+                        <span class="sp-db-table-icon">📨</span>
+                        <div>
+                            <strong>HistoricoEnvioMensagem</strong>
+                            <p>Registro de cada envio disparado pela mensageria: canal (e-mail/SMS), destinatário, status, erro e ID do provedor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="sp-text sp-text-note">
+                    <strong>Migrations automáticas:</strong> a cada deploy, o <code>Program.cs</code> da Web executa
+                    <code>db.Database.MigrateAsync()</code> no startup, aplicando as migrations do EF Core direto no
+                    Supabase — sem passo manual.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= FLUXO DE CADASTRO + MENSAGERIA ================= -->
+        <section class="sp-card">
+            <div class="sp-card-header">
+                <span class="sp-card-icon">🔄</span>
+                <h2 class="sp-card-title">Fluxo: cadastro de cliente com mensageria</h2>
+            </div>
+            <div class="sp-card-body">
+
+                <ol class="sp-flow">
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">1</span>
+                        <div>
+                            <strong>Usuário preenche o formulário</strong>
+                            <p>Na página <code>/cadastro-cliente</code> (Blazor Server), com validação via <code>DataAnnotations</code> — nome, e-mail, celular e mensagem de boas-vindas.</p>
+                        </div>
+                    </li>
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">2</span>
+                        <div>
+                            <strong>Blazor chama a API</strong>
+                            <p>Via <code>HttpClientFactory</code> ("CadastroAPI"), a página envia <code>POST /api/clientes</code> para <code>api.evoluasoftware.com.br</code>.</p>
+                        </div>
+                    </li>
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">3</span>
+                        <div>
+                            <strong>Controller aciona o caso de uso</strong>
+                            <p><code>ClientesController</code> delega para <code>CriarClienteUseCase</code>, mantendo a regra de negócio fora do controller (Clean Architecture).</p>
+                        </div>
+                    </li>
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">4</span>
+                        <div>
+                            <strong>Cliente é persistido</strong>
+                            <p>O caso de uso grava o cliente na tabela <code>Clientes</code> do Postgres (Supabase), via EF Core.</p>
+                        </div>
+                    </li>
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">5</span>
+                        <div>
+                            <strong>Evento publicado na fila</strong>
+                            <p>Após a gravação, uma mensagem é publicada no <strong>RabbitMQ</strong>, desacoplando o cadastro do envio de e-mail/SMS — a API responde rápido ao usuário sem esperar o envio terminar.</p>
+                        </div>
+                    </li>
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">6</span>
+                        <div>
+                            <strong>Consumer processa a mensagem</strong>
+                            <p>Um consumidor da fila dispara o e-mail de boas-vindas e o SMS ao celular informado.</p>
+                        </div>
+                    </li>
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">7</span>
+                        <div>
+                            <strong>Histórico é gravado</strong>
+                            <p>Cada tentativa de envio (sucesso ou falha) gera um registro em <code>HistoricoEnvioMensagem</code>, com canal, status e ID do provedor.</p>
+                        </div>
+                    </li>
+                    <li class="sp-flow-step">
+                        <span class="sp-flow-num">8</span>
+                        <div>
+                            <strong>Histórico é consultado</strong>
+                            <p>A página <code>/mensageria</code> chama <code>GET /api/mensageria</code> e exibe os envios realizados.</p>
+                        </div>
+                    </li>
+                </ol>
+
+            </div>
+        </section>
+
+        <!-- ================= AMBIENTE AZURE (ALTERNATIVA AVALIADA) ================= -->
+        <section class="sp-card sp-card-muted">
+            <div class="sp-card-header">
+                <span class="sp-card-icon">🔷</span>
+                <h2 class="sp-card-title">Ambiente Azure (avaliado)</h2>
+            </div>
+            <div class="sp-card-body">
+                <p class="sp-text">
+                    Como comparativo de plataformas cloud, o mesmo sistema também foi publicado no
+                    <strong>Azure App Service</strong>. O domínio próprio exigiria upgrade do plano F1 (gratuito)
+                    para o Basic B1, então o ambiente segue no plano gratuito, acessível pelas URLs padrão:
+                </p>
+                <ul class="sp-azure-list">
+                    <li>🌐 Web: <code>ricardodev-solucaoweb-web.azurewebsites.net</code></li>
+                    <li>🔌 API: <code>ricardodev-solucaoweb-api.azurewebsites.net/swagger</code></li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<style>
+    :root {
+        --sp-bg: #f0f2f5;
+        --sp-surface: #ffffff;
+        --sp-primary: #4f46e5;
+        --sp-primary-dark: #3730a3;
+        --sp-primary-light: #eef2ff;
+        --sp-text: #111827;
+        --sp-text-muted: #6b7280;
+        --sp-border: #e5e7eb;
+        --sp-radius: 14px;
+        --sp-shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    }
+
+    body { background: var(--sp-bg) !important; }
+    .sp-wrapper { min-height: 100vh; background: var(--sp-bg); font-family: 'Segoe UI', system-ui, sans-serif; }
+    .sp-main { max-width: 1000px; margin: 0 auto; padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .sp-back-bar { margin-bottom: -.5rem; }
+    .sp-btn-back { display: inline-flex; align-items: center; gap: .4rem; color: var(--sp-primary); font-size: .88rem; font-weight: 600; text-decoration: none; padding: .4rem .9rem; border-radius: 8px; border: 1.5px solid var(--sp-primary-light); background: var(--sp-primary-light); transition: all .2s; }
+    .sp-btn-back:hover { background: var(--sp-primary); color: #fff; }
+
+    .sp-page-header { margin-bottom: .25rem; }
+    .sp-page-title { font-size: 1.5rem; font-weight: 800; color: var(--sp-text); margin: 0 0 .4rem; }
+    .sp-page-subtitle { font-size: .95rem; color: var(--sp-text-muted); margin: 0; }
+
+    .sp-card { background: var(--sp-surface); border-radius: var(--sp-radius); box-shadow: var(--sp-shadow); overflow: hidden; }
+    .sp-card-muted { background: #fafafa; }
+    .sp-card-header { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.5rem; border-bottom: 2px solid var(--sp-primary-light); background: var(--sp-primary-light); }
+    .sp-card-icon { font-size: 1.2rem; }
+    .sp-card-title { font-size: 1rem; font-weight: 700; color: var(--sp-primary-dark); margin: 0; }
+    .sp-card-body { padding: 1.75rem; }
+
+    .sp-text { font-size: .92rem; color: var(--sp-text); line-height: 1.6; margin: 0 0 1rem; }
+    .sp-text-note { background: var(--sp-primary-light); border-left: 3px solid var(--sp-primary); padding: .85rem 1rem; border-radius: 6px; margin-top: 1.25rem; }
+    .sp-text code, .sp-flow code, .sp-db-tables code, .sp-text-note code { background: #f3f4f6; color: var(--sp-primary-dark); padding: .1rem .4rem; border-radius: 4px; font-size: .85em; font-family: 'Cascadia Code', Consolas, monospace; }
+
+    /* ---- Diagrama ---- */
+    .sp-diagram { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .sp-diag-row { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    .sp-node { display: flex; flex-direction: column; align-items: center; text-align: center; background: #fff; border: 2px solid var(--sp-border); border-radius: 12px; padding: .9rem 1rem; min-width: 150px; flex: 1; }
+    .sp-node-icon { font-size: 1.4rem; margin-bottom: .3rem; }
+    .sp-node-label { font-size: .82rem; font-weight: 700; color: var(--sp-text); }
+    .sp-node-sub { font-size: .72rem; color: var(--sp-text-muted); margin-top: .15rem; }
+    .sp-node-user { border-color: #9ca3af; }
+    .sp-node-cf { border-color: #f59e0b; background: #fffbeb; }
+    .sp-node-web { border-color: var(--sp-primary); background: var(--sp-primary-light); }
+    .sp-node-api { border-color: #0891b2; background: #ecfeff; }
+    .sp-node-db { border-color: #16a34a; background: #f0fdf4; }
+    .sp-node-mq { border-color: #dc2626; background: #fef2f2; }
+    .sp-node-msg { border-color: #dc2626; background: #fef2f2; }
+    .sp-arrow { font-size: 1.3rem; color: var(--sp-text-muted); font-weight: 700; flex-shrink: 0; }
+    .sp-arrow-down { font-size: 1.1rem; color: var(--sp-text-muted); font-weight: 700; text-align: center; }
+
+    .sp-diag-row-branch { align-items: flex-start; }
+    .sp-branch-spacer { flex: 2.2; }
+    .sp-branch-line { display: none; }
+    .sp-branch-cols { flex: 1.8; display: flex; gap: 1.25rem; }
+    .sp-branch-col { display: flex; flex-direction: column; align-items: center; gap: .3rem; flex: 1; }
+
+    @@media (max-width: 900px) {
+        .sp-diag-row { flex-direction: column; }
+        .sp-arrow { transform: rotate(90deg); }
+        .sp-branch-cols { flex-direction: column; width: 100%; }
+    }
+
+    .sp-legend { display: flex; flex-wrap: wrap; gap: 1.25rem; padding-top: .5rem; border-top: 1px solid var(--sp-border); }
+    .sp-legend-item { display: flex; align-items: center; gap: .4rem; font-size: .78rem; color: var(--sp-text-muted); }
+    .sp-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .sp-dot-web { background: var(--sp-primary); }
+    .sp-dot-api { background: #0891b2; }
+    .sp-dot-db { background: #16a34a; }
+    .sp-dot-mq { background: #dc2626; }
+
+    /* ---- Stack tecnológica ---- */
+    .sp-tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+    .sp-tech-item { display: flex; gap: .85rem; align-items: flex-start; }
+    .sp-tech-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .sp-tech-item strong { font-size: .9rem; color: var(--sp-text); display: block; margin-bottom: .25rem; }
+    .sp-tech-item p { font-size: .82rem; color: var(--sp-text-muted); margin: 0; line-height: 1.5; }
+
+    /* ---- Banco de dados ---- */
+    .sp-db-tables { display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0; }
+    .sp-db-table { display: flex; gap: .85rem; align-items: flex-start; background: #f9fafb; border-radius: 10px; padding: 1rem 1.1rem; }
+    .sp-db-table-icon { font-size: 1.3rem; }
+    .sp-db-table strong { font-size: .88rem; color: var(--sp-text); display: block; margin-bottom: .2rem; }
+    .sp-db-table p { font-size: .82rem; color: var(--sp-text-muted); margin: 0; line-height: 1.5; }
+
+    /* ---- Fluxo ---- */
+    .sp-flow { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.1rem; }
+    .sp-flow-step { display: flex; gap: 1rem; align-items: flex-start; }
+    .sp-flow-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--sp-primary); color: #fff; font-size: .82rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .sp-flow-step strong { font-size: .88rem; color: var(--sp-text); display: block; margin-bottom: .2rem; }
+    .sp-flow-step p { font-size: .82rem; color: var(--sp-text-muted); margin: 0; line-height: 1.55; }
+
+    /* ---- Azure ---- */
+    .sp-azure-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+    .sp-azure-list li { font-size: .85rem; color: var(--sp-text); }
+
+    @@media (max-width: 600px) {
+        .sp-main { padding: 1.25rem; }
+        .sp-page-title { font-size: 1.25rem; }
+        .sp-card-body { padding: 1.25rem; }
+    }
+</style>
