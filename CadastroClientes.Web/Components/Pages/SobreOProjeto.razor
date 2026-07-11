@@ -16,6 +16,43 @@
             <p class="sp-page-subtitle">Como este sistema foi construído, hospedado e integrado — do cadastro do cliente ao disparo da mensagem.</p>
         </div>
 
+        <!-- ================= LINKS DE ACESSO RÁPIDO ================= -->
+        <section class="sp-card">
+            <div class="sp-card-header">
+                <span class="sp-card-icon">🔗</span>
+                <h2 class="sp-card-title">Links de acesso rápido</h2>
+            </div>
+            <div class="sp-card-body">
+                <div class="sp-links-grid">
+
+                    <div class="sp-links-group">
+                        <span class="sp-links-group-title">☁️ AWS Elastic Beanstalk</span>
+                        <a href="https://app.evoluasoftware.com.br" target="_blank" rel="noopener" class="sp-link-pill sp-link-web">
+                            <span>🌐 Web</span>
+                            <span class="sp-link-url">app.evoluasoftware.com.br</span>
+                        </a>
+                        <a href="https://api.evoluasoftware.com.br/swagger" target="_blank" rel="noopener" class="sp-link-pill sp-link-api">
+                            <span>🔌 API (Swagger)</span>
+                            <span class="sp-link-url">api.evoluasoftware.com.br/swagger</span>
+                        </a>
+                    </div>
+
+                    <div class="sp-links-group">
+                        <span class="sp-links-group-title">🔷 Azure App Service</span>
+                        <a href="https://ricardodev-solucaoweb-web.azurewebsites.net" target="_blank" rel="noopener" class="sp-link-pill sp-link-web">
+                            <span>🌐 Web</span>
+                            <span class="sp-link-url">ricardodev-solucaoweb-web.azurewebsites.net</span>
+                        </a>
+                        <a href="https://ricardodev-solucaoweb-api.azurewebsites.net/swagger" target="_blank" rel="noopener" class="sp-link-pill sp-link-api">
+                            <span>🔌 API (Swagger)</span>
+                            <span class="sp-link-url">ricardodev-solucaoweb-api.azurewebsites.net/swagger</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
         <!-- ================= DIAGRAMA DE ARQUITETURA ================= -->
         <section class="sp-card">
             <div class="sp-card-header">
@@ -299,8 +336,8 @@
                     para o Basic B1, então o ambiente segue no plano gratuito, acessível pelas URLs padrão:
                 </p>
                 <ul class="sp-azure-list">
-                    <li>🌐 Web: <code>ricardodev-solucaoweb-web.azurewebsites.net</code></li>
-                    <li>🔌 API: <code>ricardodev-solucaoweb-api.azurewebsites.net/swagger</code></li>
+                    <li>🌐 Web: <a href="https://ricardodev-solucaoweb-web.azurewebsites.net" target="_blank" rel="noopener"><code>ricardodev-solucaoweb-web.azurewebsites.net</code></a></li>
+                    <li>🔌 API: <a href="https://ricardodev-solucaoweb-api.azurewebsites.net/swagger" target="_blank" rel="noopener"><code>ricardodev-solucaoweb-api.azurewebsites.net/swagger</code></a></li>
                 </ul>
                 <p class="sp-text sp-text-note">
                     <strong>Banco de dados:</strong> no Azure, a persistência é feita em <strong>Azure SQL Server</strong>,
@@ -408,9 +445,21 @@
     .sp-flow-step strong { font-size: .88rem; color: var(--sp-text); display: block; margin-bottom: .2rem; }
     .sp-flow-step p { font-size: .82rem; color: var(--sp-text-muted); margin: 0; line-height: 1.55; }
 
+    /* ---- Links de acesso rápido ---- */
+    .sp-links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .sp-links-group { display: flex; flex-direction: column; gap: .6rem; }
+    .sp-links-group-title { font-size: .8rem; font-weight: 700; color: var(--sp-text-muted); text-transform: uppercase; letter-spacing: .03em; margin-bottom: .2rem; }
+    .sp-link-pill { display: flex; align-items: center; justify-content: space-between; gap: .75rem; background: #f9fafb; border: 1.5px solid var(--sp-border); border-radius: 10px; padding: .75rem 1rem; text-decoration: none; font-size: .85rem; font-weight: 700; color: var(--sp-text); transition: all .2s; flex-wrap: wrap; }
+    .sp-link-pill:hover { border-color: var(--sp-primary); background: var(--sp-primary-light); transform: translateX(2px); }
+    .sp-link-pill .sp-link-url { font-weight: 500; font-size: .78rem; color: var(--sp-text-muted); font-family: 'Cascadia Code', Consolas, monospace; }
+    .sp-link-web { border-left: 3px solid var(--sp-primary); }
+    .sp-link-api { border-left: 3px solid #0891b2; }
+
     /* ---- Azure ---- */
     .sp-azure-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
     .sp-azure-list li { font-size: .85rem; color: var(--sp-text); }
+    .sp-azure-list a { color: var(--sp-primary); text-decoration: none; }
+    .sp-azure-list a:hover { text-decoration: underline; }
 
     @@media (max-width: 600px) {
         .sp-main { padding: 1.25rem; }
