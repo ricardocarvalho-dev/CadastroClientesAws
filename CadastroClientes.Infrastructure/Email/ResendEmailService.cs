@@ -25,11 +25,30 @@ public class ResendEmailService : IEmailService
         _fromName = configuration["Resend:FromName"] ?? "Ricardodev Solução WEB";
     }
 
+    /// <summary>
+    /// Codifica o nome de exibição no formato RFC 2047 (MIME encoded-word) quando
+    /// contém caracteres fora do intervalo ASCII (ex: acentos). Cabeçalhos de e-mail
+    /// (como o "from") são restritos a 7-bit ASCII por padrão — provedores como o
+    /// Resend rejeitam com 422 se receberem UTF-8 "cru" no nome de exibição.
+    /// Referência: RFC 2047 (https://www.rfc-editor.org/rfc/rfc2047).
+    /// </summary>
+    private static string CodificarNomeExibicao(string nome)
+    {
+        if (string.IsNullOrEmpty(nome) || nome.All(c => c < 128))
+            return nome;
+
+        var bytes = Encoding.UTF8.GetBytes(nome);
+        var base64 = Convert.ToBase64String(bytes);
+        return $"=?UTF-8?B?{base64}?=";
+    }
+
     public async Task<EmailResultadoDto> EnviarAsync(string destinatarioEmail, string nomeCliente, string mensagem)
     {
+        var fromNomeCodificado = CodificarNomeExibicao(_fromName);
+
         var payload = new
         {
-            from = $"{_fromName} <{_fromEmail}>",
+            from = $"{fromNomeCodificado} <{_fromEmail}>",
             to = new[] { destinatarioEmail },
             subject = "Recebemos sua mensagem",
             html = $"<p>Olá, {nomeCliente}!</p><p>Recebemos o seu cadastro com a seguinte mensagem:</p><blockquote>{mensagem}</blockquote><p>Em breve entraremos em contato.</p>"
