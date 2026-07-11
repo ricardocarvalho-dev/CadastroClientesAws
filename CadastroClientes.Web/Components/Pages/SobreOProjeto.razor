@@ -180,6 +180,22 @@
                     </div>
 
                     <div class="sp-tech-item">
+                        <span class="sp-tech-icon">💬</span>
+                        <div>
+                            <strong>Twilio</strong>
+                            <p>Provedor de SMS. No plano trial usado nesta demo, só envia para números previamente verificados no Console do Twilio.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
+                        <span class="sp-tech-icon">📧</span>
+                        <div>
+                            <strong>Resend</strong>
+                            <p>Provedor de e-mail transacional para o e-mail de boas-vindas. Usado no plano gratuito, com cota diária de envios.</p>
+                        </div>
+                    </div>
+
+                    <div class="sp-tech-item">
                         <span class="sp-tech-icon">☁️</span>
                         <div>
                             <strong>AWS Elastic Beanstalk</strong>
@@ -301,7 +317,7 @@
                         <span class="sp-flow-num">6</span>
                         <div>
                             <strong>Consumer processa a mensagem</strong>
-                            <p>Um consumidor da fila dispara o e-mail de boas-vindas e o SMS ao celular informado.</p>
+                            <p>Um consumidor da fila dispara o e-mail de boas-vindas via <strong>Resend</strong> e o SMS via <strong>Twilio</strong> ao celular informado. No Twilio, por estar no plano trial, o número do destinatário precisa estar previamente verificado no Console; no Resend, o envio é livre, respeitando a cota diária gratuita do plano.</p>
                         </div>
                     </li>
                     <li class="sp-flow-step">
