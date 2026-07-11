@@ -22,7 +22,7 @@ public class ResendEmailService : IEmailService
         _logger = logger;
         _apiKey = configuration["Resend:ApiKey"] ?? throw new InvalidOperationException("Resend:ApiKey não configurada");
         _fromEmail = configuration["Resend:FromEmail"] ?? "noreply@evoluasoftware.com.br";
-        _fromName = configuration["Resend:FromName"] ?? "Ricardodev Aplicação WEB";
+        _fromName = configuration["Resend:FromName"] ?? "Ricardodev Solu\u00e7\u00e3o WEB";
     }
 
     public async Task<EmailResultadoDto> EnviarAsync(string destinatarioEmail, string nomeCliente, string mensagem)
