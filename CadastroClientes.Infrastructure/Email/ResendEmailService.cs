@@ -35,9 +35,7 @@ public class ResendEmailService : IEmailService
             html = $"<p>Olá, {nomeCliente}!</p><p>Recebemos o seu cadastro com a seguinte mensagem:</p><blockquote>{mensagem}</blockquote><p>Em breve entraremos em contato.</p>"
         };
 
-        var json = JsonSerializer.Serialize(payload);
-        _logger.LogInformation("Resend from field: {From}", payload.from);
-        _logger.LogInformation("Resend payload JSON: {Json}", json);
+        var json = JsonSerializer.Serialize(payload, new JsonSerializerOptions { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
         using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.resend.com/emails")
         {
             Content = new StringContent(json, Encoding.UTF8, "application/json")
