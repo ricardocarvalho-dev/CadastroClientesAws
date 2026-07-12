@@ -36,6 +36,8 @@ public class ResendEmailService : IEmailService
         };
 
         var json = JsonSerializer.Serialize(payload);
+        _logger.LogInformation("Resend from field: {From}", payload.from);
+        _logger.LogInformation("Resend payload JSON: {Json}", json);
         using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.resend.com/emails")
         {
             Content = new StringContent(json, Encoding.UTF8, "application/json")
